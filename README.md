@@ -40,7 +40,7 @@ Contributions to the Stellar Application are welcome. Please refer to the contri
 
 ## License
 
-The Stellar Application is released under \[license name\], which details the permissions, limitations, and conditions under which the software can be used, modified, and distributed.
+The Stellar Application is released under MIT License, which details the permissions, limitations, and conditions under which the software can be used, modified, and distributed.
 
 ## Acknowledgments
 
