@@ -11,7 +11,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-
 mongoose.connect(process.env.MONGODB_URI!);
 
 mongoose.connection.on('connected', () => {
