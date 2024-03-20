@@ -33,7 +33,7 @@ export const create_user = async (req: Request, res: Response, next: NextFunctio
                             email: req.body.email,
                             password: hash,
                             first_name: req.body.first_name,
-                            second_name: req.body.second_name,
+                            last_name: req.body.last_name,
                             pass_reset_required: true,
                         });
                         newUser
@@ -153,3 +153,33 @@ export const get_logged_user = (req: Request, res: Response, next: NextFunction)
         res.status(500).json({ message: 'Error getting logged user details.' });
     }
 };
+
+export const add_achievement = (req: Request, res: Response, next: NextFunction): void => {
+    try {
+        const userId = req.params.id;
+        const achievement = req.body.achievement;
+        User.findById(userId)
+            .then((user) => {
+                if (!user) {
+                    return res.status(404).json({ message: 'User not found.' });
+                }
+                user.achievements.push(achievement);
+                user
+                    .save()
+                    .then(() => {
+                        res.json({ message: 'Achievement added successfully.' });
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                        res.status(500).json({ message: 'Error adding achievement.' });
+                    });
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).json({ message: 'Error adding achievement.' });
+            });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error adding achievement.' });
+    }
+}
