@@ -25,5 +25,15 @@ MonoBehaviour:
       m_GuidHigh: 1081207426005263786
     m_Size: {x: 0, y: 0}
     m_SpecifySize: 0
-    m_Name: MarsTracker
+    m_Name: Mars
     m_Texture: {fileID: 2800000, guid: ba4afcf7f459dfc4aae58eeb6c38010f, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5407322109075651816
+      m_GuidHigh: 15564247147535528352
+    m_SerializedTextureGuid:
+      m_GuidLow: 5112970669948794102
+      m_GuidHigh: 8834180288713389448
+    m_Size: {x: 0, y: 0}
+    m_SpecifySize: 0
+    m_Name: Earth
+    m_Texture: {fileID: 2800000, guid: 1149f4f6ebbc46f488f584c62a50997a, type: 3}
