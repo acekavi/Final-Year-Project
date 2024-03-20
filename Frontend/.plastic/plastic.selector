@@ -1,4 +1,0 @@
-repository "Frontend@dfntlynotace@cloud"
-  path "/"
-    br "/main"
-    co "/main"

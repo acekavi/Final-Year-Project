@@ -4,10 +4,13 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IUser extends Document {
     email: string;
     first_name: string;
-    last_name?: string; // '?' makes the property optional
+    last_name?: string;
     pass_reset_required: boolean;
     password: string;
     created_at: Date;
+    achievements: string[];
+    badges: string[];
+    level: number;
 }
 
 // Define the User schema
@@ -23,6 +26,9 @@ const userSchema: Schema = new mongoose.Schema({
     pass_reset_required: { type: Boolean, required: true },
     password: { type: String, required: true },
     created_at: { type: Date, default: Date.now },
+    achievements: { type: [String], required: false, default: [] },
+    badges: { type: [String], required: false, default: [] },
+    level: { type: Number, required: false, default: 1 },
 });
 
 // Create and export the model
