@@ -23,8 +23,8 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 16124281232107961591
       m_GuidHigh: 1081207426005263786
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.045, y: 0.045}
+    m_SpecifySize: 1
     m_Name: Mars
     m_Texture: {fileID: 2800000, guid: ba4afcf7f459dfc4aae58eeb6c38010f, type: 3}
   - m_SerializedGuid:
@@ -33,7 +33,17 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 5112970669948794102
       m_GuidHigh: 8834180288713389448
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.045, y: 0.045}
+    m_SpecifySize: 1
     m_Name: Earth
     m_Texture: {fileID: 2800000, guid: 1149f4f6ebbc46f488f584c62a50997a, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5228649595418576917
+      m_GuidHigh: 5682383211449641879
+    m_SerializedTextureGuid:
+      m_GuidLow: 5360551641078604328
+      m_GuidHigh: 11435473077938516522
+    m_Size: {x: 0.045, y: 0.045}
+    m_SpecifySize: 1
+    m_Name: Sun Sphere
+    m_Texture: {fileID: 2800000, guid: eea0a22881504a642a7211392df6b29e, type: 3}
