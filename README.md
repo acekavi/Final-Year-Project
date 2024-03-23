@@ -2,6 +2,8 @@
 
 ## Overview
 
+![Application Logo](Frontend/Assets/Resources/Images/Logo/LogoText.png)
+
 This repository contains the implementation code for the Stellar Application, an educational augmented reality (AR) application designed to enhance astronomy education for Generation Alpha students. Based on extensive research, the application combines functional and non-functional requirements aimed at providing an engaging and interactive learning experience.
 
 ## Project Domain Overview
