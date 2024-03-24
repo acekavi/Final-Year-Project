@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/UIs/ActivityMenu.unity
     guid: c820786412387cb47b20616783feec8c
   - enabled: 1
-    path: Assets/Scenes/Activities/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/Activities/PlanetExplorer.unity
+    guid: 2b42bd984e413ba4bb254ed0f1e7566c
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af,
       type: 2}
