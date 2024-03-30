@@ -9,6 +9,7 @@ router.post('/register', UserController.create_user);
 router.post('/signin', UserController.signin_user);
 router.get('/:id', CheckAuth, UserController.get_user);
 router.get('/logged/user', CheckAuth, UserController.get_logged_user);
+router.get('/auth-status', CheckAuth, UserController.get_auth_status);
 // router.put('/user/update/:id', CheckAuth, UserController.update_user);
 // router.put('/user/update/password/:id', CheckAuth, UserController.update_user_password);
 // router.put('/user/check_unique_email', CheckAuth, UserController.check_unique_email);

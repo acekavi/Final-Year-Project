@@ -10,17 +10,25 @@ interface RequestWithUser extends Request {
 }
 
 function checkBearerToken(req: RequestWithUser, res: Response, next: NextFunction): Response | void {
+    console.log('user auth checked!');
+
     const token = req.header('Authorization');
 
     if (!token) {
-        return res.status(401).json({ message: 'Unauthorized - Missing bearer token' });
+        return res.status(401).json({
+            message: 'Unauthorized - Missing bearer token',
+            auth: false,
+        });
     }
 
     const tokenValue = token.replace('Bearer ', '');
 
     jwt.verify(tokenValue, secretKey, (err, decoded) => {
         if (err) {
-            return res.status(401).json({ message: 'Unauthorized - Invalid token' });
+            return res.status(401).json({
+                message: 'Unauthorized - Invalid token',
+                auth: false
+            });
         }
 
         req.user = decoded; // Assuming decoded token is the user info
