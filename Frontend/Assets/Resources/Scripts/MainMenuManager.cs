@@ -22,15 +22,8 @@ public class MainMenuManager : MonoBehaviour
 
     void Start()
     {
-        LoadConfig();
+        authCheckUrl = ConfigManager.GetApiUrl("/api/users/check/auth");
         StartCoroutine(CheckAuthentication());
-    }
-
-    void LoadConfig()
-    {
-        TextAsset configFile = Resources.Load<TextAsset>("env");
-        ConfigData config = JsonUtility.FromJson<ConfigData>(configFile.text);
-        authCheckUrl = config.apiUrl;
     }
 
     IEnumerator CheckAuthentication()

@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Resources/Scenes/UIs/ActivityMenu.unity
     guid: c820786412387cb47b20616783feec8c
   - enabled: 1
+    path: Assets/Resources/Scenes/UIs/LoginMenu.unity
+    guid: b2fbecff4d1d74944917c85b1e92a390
+  - enabled: 1
+    path: Assets/Resources/Scenes/UIs/RegisterMenu.unity
+    guid: d531b31d6b6786f428d1f75185ec71a1
+  - enabled: 1
     path: Assets/Resources/Scenes/Activities/PlanetExplorer.unity
     guid: 2b42bd984e413ba4bb254ed0f1e7566c
   m_configObjects:

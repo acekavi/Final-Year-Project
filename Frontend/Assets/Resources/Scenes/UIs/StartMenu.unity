@@ -703,7 +703,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 277805507}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1419849941}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: MovetoScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: LoginMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &277805507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -898,7 +910,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 409879710}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1419849941}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &409879710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,7 +1343,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 977355339}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1419849941}
+        m_TargetAssemblyTypeName: SceneManager, Assembly-CSharp
+        m_MethodName: MovetoScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: RegisterMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &977355339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1513,6 +1549,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1419849940}
   - component: {fileID: 1419849939}
+  - component: {fileID: 1419849941}
   m_Layer: 0
   m_Name: MainMenuManager
   m_TagString: Untagged
@@ -1550,6 +1587,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1419849941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419849938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16303645c8b53074aa88060627bfd928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1519618411
 GameObject:
   m_ObjectHideFlags: 0
