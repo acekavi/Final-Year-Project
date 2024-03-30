@@ -31,10 +31,9 @@ export const create_user = async (req: Request, res: Response, next: NextFunctio
                         const newUser = new User({
                             _id: new mongoose.Types.ObjectId(),
                             email: req.body.email,
+                            name: req.body.name,
+                            age: req.body.age,
                             password: hash,
-                            first_name: req.body.first_name,
-                            last_name: req.body.last_name,
-                            pass_reset_required: true,
                         });
                         newUser
                             .save()
@@ -187,6 +186,6 @@ export const add_achievement = (req: Request, res: Response, next: NextFunction)
 export const get_auth_status = (req: Request, res: Response, next: NextFunction): void => {
     res.status(200).json({
         message: 'User is authenticated.',
-        auth: true,
+        auth: true
     });
 }

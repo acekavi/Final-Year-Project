@@ -10,8 +10,6 @@ interface RequestWithUser extends Request {
 }
 
 function checkBearerToken(req: RequestWithUser, res: Response, next: NextFunction): Response | void {
-    console.log('user auth checked!');
-
     const token = req.header('Authorization');
 
     if (!token) {
