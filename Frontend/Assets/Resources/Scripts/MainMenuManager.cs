@@ -1,7 +1,16 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // Required for interacting with UI elements
+using UnityEngine.Networking;
+using UnityEngine.UI;
+
+
+[System.Serializable]
+public class AuthResponse
+{
+    public string message;
+    public bool auth;
+}
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -9,45 +18,65 @@ public class MainMenuManager : MonoBehaviour
     public Button registerButton;
     public Button playButton;
 
-    // Assuming we have a simple way to check if the player is logged in
-    // This could be replaced with your authentication check
-    private bool isLoggedIn = false;
+    private string authCheckUrl; // Will be loaded from config.json
 
     void Start()
     {
-        UpdateMenu();
+        LoadConfig();
+        StartCoroutine(CheckAuthentication());
     }
 
-    void UpdateMenu()
+    void LoadConfig()
     {
-        // Check if the player is logged in
-        if (isLoggedIn)
+        TextAsset configFile = Resources.Load<TextAsset>("env");
+        ConfigData config = JsonUtility.FromJson<ConfigData>(configFile.text);
+        authCheckUrl = config.apiUrl;
+    }
+
+    IEnumerator CheckAuthentication()
+    {
+        string token = PlayerPrefs.GetString("AuthToken", "");
+        if (string.IsNullOrEmpty(token))
         {
-            // Player is logged in, show the Play button
-            loginButton.gameObject.SetActive(false);
-            registerButton.gameObject.SetActive(false);
-            playButton.gameObject.SetActive(true);
+            ShowLoginRegisterButtons();
+            yield break;
+        }
+
+        UnityWebRequest request = UnityWebRequest.Get(authCheckUrl);
+        request.SetRequestHeader("Authorization", "Bearer " + token);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            // Assuming the server responds with a JSON object containing an 'auth' boolean.
+            AuthResponse response = JsonUtility.FromJson<AuthResponse>(request.downloadHandler.text);
+            if (response.auth)
+            {
+                ShowPlayButton();
+            }
+            else
+            {
+                ShowLoginRegisterButtons();
+            }
         }
         else
         {
-            // Player is not logged in, show the Login and Register buttons
-            loginButton.gameObject.SetActive(true);
-            registerButton.gameObject.SetActive(true);
-            playButton.gameObject.SetActive(false);
+            // Handle error (e.g., show an error message)
+            ShowLoginRegisterButtons();
         }
     }
 
-    // Example method to simulate player logging in
-    public void LogIn()
+    void ShowLoginRegisterButtons()
     {
-        isLoggedIn = true;
-        UpdateMenu();
+        loginButton.gameObject.SetActive(true);
+        registerButton.gameObject.SetActive(true);
+        playButton.gameObject.SetActive(false);
     }
 
-    // Example method to simulate player logging out
-    public void LogOut()
+    void ShowPlayButton()
     {
-        isLoggedIn = false;
-        UpdateMenu();
+        loginButton.gameObject.SetActive(false);
+        registerButton.gameObject.SetActive(false);
+        playButton.gameObject.SetActive(true);
     }
 }

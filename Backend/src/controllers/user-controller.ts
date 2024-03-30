@@ -183,3 +183,10 @@ export const add_achievement = (req: Request, res: Response, next: NextFunction)
         res.status(500).json({ message: 'Error adding achievement.' });
     }
 }
+
+export const get_auth_status = (req: Request, res: Response, next: NextFunction): void => {
+    res.status(200).json({
+        message: 'User is authenticated.',
+        auth: true,
+    });
+}
