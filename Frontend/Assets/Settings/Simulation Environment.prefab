@@ -1034,7 +1034,6 @@ GameObject:
   - component: {fileID: 4787310496619794713}
   - component: {fileID: 5483922774586294721}
   - component: {fileID: 7438355196076818435}
-  - component: {fileID: 1321513415780536375}
   m_Layer: 0
   m_Name: Mercury
   m_TagString: Untagged
@@ -1050,12 +1049,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7402969197674105936}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.751, y: 0.016, z: 0}
-  m_LocalScale: {x: 0.41664, y: 0.491043, z: 0.41664}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4365528357719543085}
+  m_Father: {fileID: 4044928308999714137}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &4787310496619794713
 MeshFilter:
@@ -1129,20 +1128,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1321513415780536375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7402969197674105936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c39bb24e2bd7a482ca08117fb44b8e44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Image: {fileID: 2800000, guid: f8102d6e1e35e4f419e93174c8c1cf73, type: 3}
-  m_ImagePhysicalSizeMeters: {x: 0.01, y: 0.01}
 --- !u!1 &7576867131100388943
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,7 +1162,7 @@ Transform:
   - {fileID: 5911072156897761180}
   - {fileID: 4744334345910528120}
   - {fileID: 5283108358406351049}
-  - {fileID: 2816123560745694793}
+  - {fileID: 4044928308999714137}
   - {fileID: 666117833797625502}
   - {fileID: 6298427573898296114}
   - {fileID: 4583863778783379214}
@@ -1379,6 +1364,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Image: {fileID: 2800000, guid: ad207f5fb60985e4b82a597cd2bc2929, type: 3}
+  m_ImagePhysicalSizeMeters: {x: 0.01, y: 0.01}
+--- !u!1 &8375381956655132956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4044928308999714137}
+  - component: {fileID: 8856145400309124430}
+  m_Layer: 0
+  m_Name: MercuryTracker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4044928308999714137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8375381956655132956}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.751, y: 0.35, z: 0}
+  m_LocalScale: {x: 0.41664, y: 0.491043, z: 0.41664004}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2816123560745694793}
+  m_Father: {fileID: 4365528357719543085}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8856145400309124430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8375381956655132956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39bb24e2bd7a482ca08117fb44b8e44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Image: {fileID: 2800000, guid: f8102d6e1e35e4f419e93174c8c1cf73, type: 3}
   m_ImagePhysicalSizeMeters: {x: 0.01, y: 0.01}
 --- !u!1 &8525615719463077044
 GameObject:

@@ -5,87 +5,79 @@ using UnityEngine.XR.ARSubsystems;
 
 public class ImageTracking : MonoBehaviour
 {
-    private ARTrackedImageManager trackedImages;
-    public GameObject[] ArPrefabs;
-    private Dictionary<string, GameObject> prefabMap = new Dictionary<string, GameObject>();
+    [SerializeField]
+    private ARTrackedImageManager trackedImageManager;
 
-    private List<GameObject> spawnedObjects = new List<GameObject>();
+    // Prefabs for the planets.
+    public GameObject[] planetPrefabs;
 
-    private GameManager gameManager; // Reference to the GameManager
+    // Mapping of planet names to their prefabs.
+    private Dictionary<string, GameObject> planetPrefabsMap = new Dictionary<string, GameObject>();
+
+    // Reference to the GameManager script.
+    private GameManager gameManager;
 
     private void Awake()
     {
-        trackedImages = GetComponent<ARTrackedImageManager>();
-        gameManager = FindObjectOfType<GameManager>(); // Find the GameManager in the scene
-
-        // Populate the prefab map for faster lookup
-        foreach (var prefab in ArPrefabs)
+        // Initialize the planet prefabs map.
+        foreach (GameObject prefab in planetPrefabs)
         {
-            prefabMap[prefab.name] = prefab;
+            planetPrefabsMap[prefab.name] = prefab;
         }
+
+        // Find the GameManager in the scene.
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void OnEnable()
     {
-        trackedImages.trackedImagesChanged += OnTrackedImagesChanged;
+        trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
     }
 
     private void OnDisable()
     {
-        trackedImages.trackedImagesChanged -= OnTrackedImagesChanged;
+        trackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
     }
 
     private void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
         foreach (var trackedImage in eventArgs.added)
         {
-            SpawnPrefab(trackedImage);
+            // Handle newly detected images.
+            UpdateTrackedImage(trackedImage);
         }
 
         foreach (var trackedImage in eventArgs.updated)
         {
-            UpdatePrefab(trackedImage);
+            // Handle updated images.
+            UpdateTrackedImage(trackedImage);
         }
 
-        foreach (var trackedImage in eventArgs.removed)
+        // Optionally handle removed images, if necessary.
+    }
+
+    private void UpdateTrackedImage(ARTrackedImage trackedImage)
+    {
+        string name = trackedImage.referenceImage.name;
+
+        // Check if the detected planet is the one currently asked for.
+        if (gameManager.GetCurrentQuestionPlanet() == name)
         {
-            RemovePrefab(trackedImage);
+            gameManager.CorrectPlanetScanned();
+            SpawnPlanet(name, trackedImage.transform.position);
+        }
+        else
+        {
+            gameManager.WrongPlanetScanned(name); // Pass the wrongly scanned planet name for feedback.
         }
     }
 
-    private void SpawnPrefab(ARTrackedImage trackedImage)
+    private void SpawnPlanet(string planetName, Vector3 position)
     {
-        if (prefabMap.ContainsKey(trackedImage.referenceImage.name))
+        if (planetPrefabsMap.ContainsKey(planetName))
         {
-            GameObject prefab = prefabMap[trackedImage.referenceImage.name];
-            GameObject spawnedObject = Instantiate(prefab, trackedImage.transform.position, trackedImage.transform.rotation, transform);
-            spawnedObjects.Add(spawnedObject);
-
-            // Pass the spawn point to GameManager if it's available
-            if (gameManager != null)
-            {
-                Transform spawnPoint = trackedImage.transform.Find("SpawnPoint");
-                if (spawnPoint != null)
-                {
-                    gameManager.planetSpawnPoint = spawnPoint;
-                }
-            }
+            // Instantiate the correct planet model at the position of the tracked image.
+            Instantiate(planetPrefabsMap[planetName], position, Quaternion.identity);
         }
-    }
-
-    private void UpdatePrefab(ARTrackedImage trackedImage)
-    {
-        foreach (var spawnedObject in spawnedObjects)
-        {
-            if (spawnedObject.name == trackedImage.referenceImage.name)
-            {
-                spawnedObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);
-            }
-        }
-    }
-
-    private void RemovePrefab(ARTrackedImage trackedImage)
-    {
-        spawnedObjects.RemoveAll(obj => obj.name == trackedImage.referenceImage.name);
     }
 }
