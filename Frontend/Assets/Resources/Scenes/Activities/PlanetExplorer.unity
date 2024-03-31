@@ -1161,6 +1161,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FeedbackPopup
       objectReference: {fileID: 0}
+    - target: {fileID: 7031871750437558109, guid: 6ac5faae2e169ea48b4a91289ef14654,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8187309212050353239, guid: 6ac5faae2e169ea48b4a91289ef14654,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1999,6 +2004,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestionDisplay
       objectReference: {fileID: 0}
+    - target: {fileID: 2618112503688576775, guid: 269ef77780f861047b891d8e2feebe05,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7998491185718781257, guid: 269ef77780f861047b891d8e2feebe05,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2234,6 +2244,8 @@ MonoBehaviour:
   feedbackPopup: {fileID: 478372836}
   feedbackText: {fileID: 1016807718}
   nextQuestionButton: {fileID: 1462379145}
+  InstructionsPanel: {fileID: 1475526585}
+  ScoreUIPanel: {fileID: 1703310478}
 --- !u!1 &1235305091
 GameObject:
   m_ObjectHideFlags: 0
@@ -2461,6 +2473,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4034421989048122415, guid: baf5d62ecb1c33744b6f8774de618d94,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1193622404}
+    - target: {fileID: 4034421989048122415, guid: baf5d62ecb1c33744b6f8774de618d94,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 4034421989048122415, guid: baf5d62ecb1c33744b6f8774de618d94,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameManager, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 5180809880506010848, guid: baf5d62ecb1c33744b6f8774de618d94,
         type: 3}
       propertyPath: m_Name
@@ -2477,6 +2504,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1475526583}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1475526585 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5180809880506010848, guid: baf5d62ecb1c33744b6f8774de618d94,
+    type: 3}
+  m_PrefabInstance: {fileID: 1475526583}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1703310476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2489,6 +2522,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TimerAndScore
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146857798536213232, guid: 211b7eeb7b057be4a80c8d718d7d2a13,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5577702596730453933, guid: 211b7eeb7b057be4a80c8d718d7d2a13,
         type: 3}
@@ -2598,6 +2636,12 @@ PrefabInstance:
 --- !u!224 &1703310477 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5577702596730453933, guid: 211b7eeb7b057be4a80c8d718d7d2a13,
+    type: 3}
+  m_PrefabInstance: {fileID: 1703310476}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1703310478 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5146857798536213232, guid: 211b7eeb7b057be4a80c8d718d7d2a13,
     type: 3}
   m_PrefabInstance: {fileID: 1703310476}
   m_PrefabAsset: {fileID: 0}
@@ -2999,6 +3043,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: NextQuestionBtn
+      objectReference: {fileID: 0}
+    - target: {fileID: 6863854132828593446, guid: 2371405b9ce2ef8409189c297b587ec7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8830260682898014983, guid: 2371405b9ce2ef8409189c297b587ec7,
         type: 3}
