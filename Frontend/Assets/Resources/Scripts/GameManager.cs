@@ -1,80 +1,133 @@
 using System.Collections;
 using UnityEngine;
-using TMPro; // Import TextMeshPro namespace
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    public TMP_Text questionText; // Use TMP_Text for TextMeshPro text components
-    public TMP_Text timerText;
+    // Assume this is the parent GameObject of your questionText, which represents the entire question UI prefab
+    public GameObject questionUIPrefab;
+    public TMP_Text questionText;
+
     public TMP_Text scoreText;
-    public Transform planetSpawnPoint;
-    public float timeLimit = 30f;
+    public TMP_Text timerText;
+    public GameObject feedbackPopup;
+    public TMP_Text feedbackText;
+    public Button nextQuestionButton;
 
-    private GameObject[] planetPrefabs; // Array to store planet prefabs
+    private float timeLimit = 30f;
     private float currentTime;
-    private bool isTimerRunning = false;
     private int score = 0;
+    private int currentQuestionIndex = 0;
+    private string currentQuestionPlanet;
+    private bool isAnsweringQuestion = false;
 
-    private void Start()
+    private string[] questions = new string[]
     {
-        planetPrefabs = FindObjectOfType<ImageTracking>().ArPrefabs; // Get planet prefabs from ImageTracking script
-        UpdateQuestion();
+        "Which planet is known as the Red Planet?",
+        "Which planet is the largest in our solar system?",
+        "Which planet is closest to the Sun?",
+        "Which planet is known as the Blue Planet?",
+        "Which planet is known as the Ringed Planet?",
+    };
+
+    private string[] answers = new string[]
+    {
+        "Mars",
+        "Jupiter",
+        "Mercury",
+        "Earth",
+        "Saturn",
+    };
+
+    void Start()
+    {
+        nextQuestionButton.gameObject.SetActive(false);
+        feedbackPopup.SetActive(false);
+        GoToNextQuestion();
     }
 
-    private void Update()
+    void Update()
     {
-        if (isTimerRunning)
+        if (isAnsweringQuestion)
         {
             currentTime -= Time.deltaTime;
             UpdateTimerUI();
 
             if (currentTime <= 0f)
             {
-                EndGame();
+                TimeRanOut();
             }
         }
     }
-
-    private void UpdateQuestion()
+    public void GoToNextQuestion()
     {
-        // Implement your logic to update the question text and correct answer
-        questionText.text = "Which planet is known as the Red Planet?";
-        StartTimer();
+        if (currentQuestionIndex >= questions.Length)
+        {
+            EndGame();
+            return;
+        }
+
+        questionUIPrefab.SetActive(true); // Ensure the question prefab is visible
+        feedbackPopup.SetActive(false);
+        nextQuestionButton.gameObject.SetActive(false);
+        isAnsweringQuestion = true;
+
+        currentQuestionPlanet = answers[currentQuestionIndex];
+        questionText.text = questions[currentQuestionIndex];
+        currentTime = timeLimit;
+        UpdateTimerUI();
     }
 
-    public void CheckAnswer(string selectedPlanet)
+    public void CorrectPlanetScanned()
     {
-        if (selectedPlanet == "Mars")
+        if (!isAnsweringQuestion) return;
+
+        score += Mathf.CeilToInt(currentTime);
+        UpdateScoreUI();
+        ShowFeedback(true);
+        isAnsweringQuestion = false;
+        currentQuestionIndex++;
+
+        questionUIPrefab.SetActive(false); // Hide the question prefab as the correct answer is shown
+    }
+
+    public void WrongPlanetScanned(string scannedPlanet)
+    {
+        if (!isAnsweringQuestion) return;
+
+        score = Mathf.Max(0, score - 10);
+        UpdateScoreUI();
+        ShowFeedback(false);
+    }
+
+    private void ShowFeedback(bool isCorrect)
+    {
+        feedbackPopup.SetActive(true);
+        feedbackText.text = isCorrect ? "Correct!" : "Try again!";
+        StartCoroutine(HideFeedbackAfterDelay(2f)); // Optionally adjust the delay based on your preference
+    }
+
+    private IEnumerator HideFeedbackAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        feedbackPopup.SetActive(false);
+        if (currentQuestionIndex < questions.Length)
         {
-            score += CalculateScore();
-            SpawnPlanet("Mars"); // Spawn the correct planet
+            nextQuestionButton.gameObject.SetActive(true); // Re-enable the button after hiding the feedback
         }
         else
         {
-            // Incorrect answer logic
-            StartCoroutine(ShowTryAgainMessage());
+            // If there are no more questions, you might want to automatically end the game or prompt the user differently
+            EndGame();
         }
-
-        scoreText.text = "Score: " + score.ToString();
-
-        // Update question after answering
-        UpdateQuestion();
     }
 
-    private int CalculateScore()
+    private void TimeRanOut()
     {
-        // Calculate score based on time remaining
-        float percentageRemaining = currentTime / timeLimit;
-        int timeBonus = Mathf.RoundToInt(percentageRemaining * 100);
-
-        // Minimum score is 10
-        return Mathf.Max(10, timeBonus);
-    }
-
-    private void StartTimer()
-    {
-        currentTime = timeLimit;
-        isTimerRunning = true;
+        ShowFeedback(false);
+        isAnsweringQuestion = false;
+        currentQuestionIndex++;
     }
 
     private void UpdateTimerUI()
@@ -82,29 +135,20 @@ public class GameManager : MonoBehaviour
         timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
     }
 
+    private void UpdateScoreUI()
+    {
+        scoreText.text = "Score: " + score.ToString();
+    }
+
     private void EndGame()
     {
-        isTimerRunning = false;
-        // Additional end game logic, if needed
+        // Here you could show a game over screen or transition back to a main menu
+        Debug.Log("Game Over! Final Score: " + score);
     }
 
-    private void SpawnPlanet(string planetName)
+    // Utility method for the GameManager to know the current question's planet
+    public string GetCurrentQuestionPlanet()
     {
-        foreach (var prefab in planetPrefabs)
-        {
-            if (prefab.name == planetName)
-            {
-                Instantiate(prefab, planetSpawnPoint.position, planetSpawnPoint.rotation);
-                break;
-            }
-        }
-    }
-
-    private IEnumerator ShowTryAgainMessage()
-    {
-        // Display try again message for 2 seconds
-        questionText.text = "Try again!";
-        yield return new WaitForSeconds(2f);
-        questionText.text = "Which planet is known as the Red Planet?";
+        return currentQuestionPlanet;
     }
 }
