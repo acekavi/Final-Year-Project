@@ -14,8 +14,10 @@ public class GameManager : MonoBehaviour
     public GameObject feedbackPopup;
     public TMP_Text feedbackText;
     public Button nextQuestionButton;
+    public GameObject InstructionsPanel;
+    public GameObject ScoreUIPanel;
 
-    private float timeLimit = 30f;
+    private float timeLimit = 180f;
     private float currentTime;
     private int score = 0;
     private int currentQuestionIndex = 0;
@@ -40,8 +42,10 @@ public class GameManager : MonoBehaviour
         "Saturn",
     };
 
-    void Start()
+    public void StartGame()
     {
+        InstructionsPanel.SetActive(false);
+        ScoreUIPanel.SetActive(true);
         nextQuestionButton.gameObject.SetActive(false);
         feedbackPopup.SetActive(false);
         GoToNextQuestion();
@@ -81,37 +85,13 @@ public class GameManager : MonoBehaviour
 
     public void CorrectPlanetScanned()
     {
-        if (!isAnsweringQuestion) return;
-
         score += Mathf.CeilToInt(currentTime);
         UpdateScoreUI();
         ShowFeedback(true);
         isAnsweringQuestion = false;
+        questionUIPrefab.SetActive(false); // Hide the question prefab as the correct answer is shown
         currentQuestionIndex++;
 
-        questionUIPrefab.SetActive(false); // Hide the question prefab as the correct answer is shown
-    }
-
-    public void WrongPlanetScanned(string scannedPlanet)
-    {
-        if (!isAnsweringQuestion) return;
-
-        score = Mathf.Max(0, score - 10);
-        UpdateScoreUI();
-        ShowFeedback(false);
-    }
-
-    private void ShowFeedback(bool isCorrect)
-    {
-        feedbackPopup.SetActive(true);
-        feedbackText.text = isCorrect ? "Correct!" : "Try again!";
-        StartCoroutine(HideFeedbackAfterDelay(2f)); // Optionally adjust the delay based on your preference
-    }
-
-    private IEnumerator HideFeedbackAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        feedbackPopup.SetActive(false);
         if (currentQuestionIndex < questions.Length)
         {
             nextQuestionButton.gameObject.SetActive(true); // Re-enable the button after hiding the feedback
@@ -121,6 +101,29 @@ public class GameManager : MonoBehaviour
             // If there are no more questions, you might want to automatically end the game or prompt the user differently
             EndGame();
         }
+    }
+
+    public void WrongPlanetScanned(string scannedPlanet)
+    {
+        ShowFeedback(false, scannedPlanet);
+    }
+
+
+    private void ShowFeedback(bool isCorrect, string scannedPlanet = null)
+    {
+        feedbackPopup.SetActive(true);
+        feedbackText.text = isCorrect ? "Correct!" : "Incorrect! Try again.";
+        if (!isCorrect && scannedPlanet != null)
+        {
+            feedbackText.text += " You scanned " + scannedPlanet + " instead.";
+        }
+        StartCoroutine(HideFeedbackAfterDelay(2f)); // Optionally adjust the delay based on your preference
+    }
+
+    private IEnumerator HideFeedbackAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        feedbackPopup.SetActive(false);
     }
 
     private void TimeRanOut()

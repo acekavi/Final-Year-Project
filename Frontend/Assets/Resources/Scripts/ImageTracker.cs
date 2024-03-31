@@ -16,6 +16,7 @@ public class ImageTracking : MonoBehaviour
 
     // Reference to the GameManager script.
     private GameManager gameManager;
+    private GameObject currentSpawnedPlanet = null;
 
     private void Awake()
     {
@@ -74,10 +75,15 @@ public class ImageTracking : MonoBehaviour
 
     private void SpawnPlanet(string planetName, Vector3 position)
     {
+        // Destroy the previously spawned planet, if any.
+        if (currentSpawnedPlanet != null)
+        {
+            Destroy(currentSpawnedPlanet);
+        }
+
         if (planetPrefabsMap.ContainsKey(planetName))
         {
-            // Instantiate the correct planet model at the position of the tracked image.
-            Instantiate(planetPrefabsMap[planetName], position, Quaternion.identity);
+            currentSpawnedPlanet = Instantiate(planetPrefabsMap[planetName], position, Quaternion.identity);
         }
     }
 }
