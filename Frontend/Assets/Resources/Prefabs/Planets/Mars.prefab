@@ -5020,8 +5020,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b25361144d4e44f85611e66861bc87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.1
-  tiltAngle: 23.5
+  infoPanelPrefab: {fileID: 0}
 --- !u!1 &2931699496394216107
 GameObject:
   m_ObjectHideFlags: 0
