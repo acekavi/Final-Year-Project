@@ -178,7 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b25361144d4e44f85611e66861bc87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  infoPanelPrefab: {fileID: 0}
+  infoPanelPrefab: {fileID: 2950598196823518793, guid: 897b6847e31ebb84ba803641a940779e,
+    type: 3}
+  planetProperties: {fileID: 11400000, guid: ffddfab75ad887248bd716fb00d800c1, type: 2}
 --- !u!1 &5007599912475505495
 GameObject:
   m_ObjectHideFlags: 0
