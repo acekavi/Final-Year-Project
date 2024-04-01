@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 5161652285296175027}
   - component: {fileID: 490368356593906735}
   - component: {fileID: 6142559523874742835}
-  - component: {fileID: -3269286869938397316}
   m_Layer: 0
   m_Name: Earth
   m_TagString: TrackingObject
@@ -179,20 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b25361144d4e44f85611e66861bc87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.1
-  tiltAngle: 23.5
---- !u!114 &-3269286869938397316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5007339984679344885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89057963458c47b4199c625ba496610a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  infoPanelPrefab: {fileID: 0}
 --- !u!1 &5007599912475505495
 GameObject:
   m_ObjectHideFlags: 0

@@ -65,7 +65,7 @@ public class ImageTracking : MonoBehaviour
         if (gameManager.GetCurrentQuestionPlanet() == name)
         {
             gameManager.CorrectPlanetScanned();
-            SpawnPlanet(name, trackedImage.transform.position);
+            SpawnPlanet(name, trackedImage.transform.position + trackedImage.transform.up * 0.05f);
         }
         else
         {

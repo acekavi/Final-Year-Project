@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     private int currentQuestionIndex = 0;
     private string currentQuestionPlanet;
     private bool isAnsweringQuestion = false;
+    private bool feedbackShown = false;
 
     private string[] questions = new string[]
     {
@@ -85,9 +86,13 @@ public class GameManager : MonoBehaviour
 
     public void CorrectPlanetScanned()
     {
-        score += Mathf.CeilToInt(currentTime);
+        if (!isAnsweringQuestion)
+        {
+            return;
+        }
         UpdateScoreUI();
         ShowFeedback(true);
+        feedbackShown = true;
         isAnsweringQuestion = false;
         questionUIPrefab.SetActive(false); // Hide the question prefab as the correct answer is shown
         currentQuestionIndex++;
@@ -105,12 +110,21 @@ public class GameManager : MonoBehaviour
 
     public void WrongPlanetScanned(string scannedPlanet)
     {
+        if (!isAnsweringQuestion)
+        {
+            return;
+        }
         ShowFeedback(false, scannedPlanet);
+        feedbackShown = true;
     }
 
 
     private void ShowFeedback(bool isCorrect, string scannedPlanet = null)
     {
+        if (feedbackShown)
+        {
+            return;
+        }
         feedbackPopup.SetActive(true);
         feedbackText.text = isCorrect ? "Correct!" : "Incorrect! Try again.";
         if (!isCorrect && scannedPlanet != null)
@@ -124,6 +138,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         feedbackPopup.SetActive(false);
+        feedbackShown = false;
     }
 
     private void TimeRanOut()
@@ -140,7 +155,11 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        scoreText.text = "Score: " + score.ToString();
+        if (isAnsweringQuestion)
+        {
+            score += Mathf.CeilToInt(currentTime);
+            scoreText.text = "Score: " + score.ToString();
+        }
     }
 
     private void EndGame()

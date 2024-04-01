@@ -2387,6 +2387,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: FeedbackPopup
       objectReference: {fileID: 0}
+    - target: {fileID: 7031871750437558109, guid: 6ac5faae2e169ea48b4a91289ef14654,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8187309212050353239, guid: 6ac5faae2e169ea48b4a91289ef14654,
         type: 3}
       propertyPath: m_Pivot.x
