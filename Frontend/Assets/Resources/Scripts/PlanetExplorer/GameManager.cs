@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour
 
     private void UpdateTimerUI()
     {
-        timerText.text = "Time: " + Mathf.CeilToInt(currentTime).ToString();
+        timerText.text = Mathf.CeilToInt(currentTime).ToString();
     }
 
     private void UpdateScoreUI()
@@ -158,7 +158,7 @@ public class GameManager : MonoBehaviour
         if (isAnsweringQuestion)
         {
             score += Mathf.CeilToInt(currentTime);
-            scoreText.text = "Score: " + score.ToString();
+            scoreText.text = score.ToString();
         }
     }
 
