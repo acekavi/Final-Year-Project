@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text scoreText;
     public TMP_Text timerText;
     public GameObject feedbackPopup;
-    public TMP_Text feedbackText;
     public Button nextQuestionButton;
     public GameObject InstructionsPanel;
     public GameObject ScoreUIPanel;
@@ -25,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     private readonly float timeLimit = 60f;
     private float currentTime;
-    private int score = 0;
+    private int score = -60;
     private string currentQuestion = string.Empty;
     private bool isAnsweringQuestion = false;
     private float totalTime = 0f;
@@ -85,7 +84,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetGame()
     {
-        score = 0;
+        score = -60;
         totalTime = 0f;
         askedQuestions.Clear(); // Clear the list of asked questions
         // Ensure availableQuestions is filled if starting a new game after playing
@@ -156,25 +155,19 @@ public class GameManager : MonoBehaviour
         {
             CorrectAnswerSelected();
         }
-        else
-        {
-            WrongAnswerSelected();
-        }
     }
 
     public void CorrectAnswerSelected()
     {
         score += Mathf.CeilToInt(currentTime);
-        ShowFeedback(true);
-        isShowingFeedback = true;
-        isAnsweringQuestion = false;
         questionUIPrefab.SetActive(false);
+        isAnsweringQuestion = false;
         totalTime += timeLimit - currentTime;
         UpdateScoreUI();
-
         if (askedQuestions.Count < 10)
         {
-            nextQuestionButton.gameObject.SetActive(true);
+            ShowFeedback();
+            isShowingFeedback = true;
         }
         else
         {
@@ -182,18 +175,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void WrongAnswerSelected()
-    {
-        ShowFeedback(false);
-        isShowingFeedback = true;
-    }
 
-    private void ShowFeedback(bool isCorrect)
+    private void ShowFeedback()
     {
         if (isShowingFeedback) return;
 
         feedbackPopup.SetActive(true);
-        feedbackText.text = isCorrect ? "Correct!" : "Try again!";
         StartCoroutine(HideFeedbackAfterDelay(2f));
     }
 
@@ -202,11 +189,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         feedbackPopup.SetActive(false);
         isShowingFeedback = false;
+        nextQuestionButton.gameObject.SetActive(true);
     }
 
     private void TimeRanOut()
     {
-        ShowFeedback(false);
         isAnsweringQuestion = false;
         questionUIPrefab.SetActive(false);
         if (askedQuestions.Count < 10)
@@ -233,7 +220,7 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         GameOverPanel.SetActive(true);
-        finalScoreText.text = score.ToString();
+        finalScoreText.text = $"{score}";
         finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + "s";
         DisplayStarsBasedOnScore();
     }
@@ -246,11 +233,6 @@ public class GameManager : MonoBehaviour
         {
             starImages[i].gameObject.SetActive(i < starsToShow);
         }
-    }
-
-    private void PlayAgain()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetExplorer");
     }
 
     private int CalculateStars(int score, int totalQuestions, int maxScorePerQuestion)

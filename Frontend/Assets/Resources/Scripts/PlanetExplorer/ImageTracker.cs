@@ -76,10 +76,6 @@ public class ImageTracking : MonoBehaviour
             gameManager.CorrectAnswerSelected();
             SpawnPlanet(name, trackedImage.transform.position, trackedImage);
         }
-        else
-        {
-            gameManager.WrongAnswerSelected();
-        }
     }
 
     private void SpawnPlanet(string planetName, Vector3 position, ARTrackedImage trackedImage)
