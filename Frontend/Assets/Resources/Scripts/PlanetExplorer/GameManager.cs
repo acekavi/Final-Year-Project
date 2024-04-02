@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    // Assume this is the parent GameObject of your questionText, which represents the entire question UI prefab
+    [Header("UI Elements")]
     public GameObject questionUIPrefab;
     public TMP_Text questionText;
-
     public TMP_Text scoreText;
     public TMP_Text timerText;
     public GameObject feedbackPopup;
@@ -17,39 +17,89 @@ public class GameManager : MonoBehaviour
     public GameObject InstructionsPanel;
     public GameObject ScoreUIPanel;
 
-    private float timeLimit = 180f;
+    [Header("Game Over Panel")]
+    public GameObject GameOverPanel;
+    public TMP_Text finalScoreText;
+    public TMP_Text finalTotalTimeText;
+    public Image[] starImages;
+
+    private readonly float timeLimit = 60f;
     private float currentTime;
     private int score = 0;
-    private int currentQuestionIndex = 0;
-    private string currentQuestionPlanet;
+    private string currentQuestion = string.Empty;
     private bool isAnsweringQuestion = false;
-    private bool feedbackShown = false;
+    private float totalTime = 0f;
+    private bool isShowingFeedback = false;
 
-    private string[] questions = new string[]
+    private readonly Dictionary<string, string> questionToAnswer = new Dictionary<string, string>()
     {
-        "Which planet is known as the Red Planet?",
-        "Which planet is the largest in our solar system?",
-        "Which planet is closest to the Sun?",
-        "Which planet is known as the Blue Planet?",
-        "Which planet is known as the Ringed Planet?",
+        {"Which planet is known for its beautiful rings?", "Saturn"},
+        {"Which planet is closest to the Sun and is also the smallest?", "Mercury"},
+        {"On which planet can you find the Great Red Spot, a giant storm?", "Jupiter"},
+        {"Which planet is famous for having the highest mountain and volcano in the Solar System?", "Mars"},
+        {"Which planet is known as the Evening Star because of its bright appearance?", "Venus"},
+        {"This planet is tilted on its side, making it unique. Which planet is it?", "Uranus"},
+        {"Which planet is known for its extreme winds and blue color due to methane in its atmosphere?", "Neptune"},
+        {"planet has a moon named Titan, which is larger than the planet Mercury?", "Saturn"},
+        {"On which planet would you weigh the least, due to its small size and low gravity?", "Mercury"},
+        {"Which planet is known as the Red Planet because of its reddish appearance?", "Mars"},
+        {"Which planet is known for its bright blue color and is often called the 'Ice Giant'?", "Neptune"},
+        {"This planet has 27 known moons and is the only one that rotates on its side. What's its name?", "Uranus"},
+        {"Which planet is known as Earth’s Twin because of their similar size?", "Venus"},
+        {"Which planet has seasons, polar ice caps, and could potentially support life with its water sources?", "Mars"},
+        {"Known as the 'Gas Giant,' this planet is the largest in our Solar System. What is its name?", "Jupiter"}
     };
 
-    private string[] answers = new string[]
+    // Updated to use lists for questions and answers
+    private readonly List<string> availableQuestions = new();
+    private readonly List<string> askedQuestions = new();
+
+
+    private void Start()
     {
-        "Mars",
-        "Jupiter",
-        "Mercury",
-        "Earth",
-        "Saturn",
-    };
+        SetupGame();
+    }
+
+    private void SetupGame()
+    {
+        InstructionsPanel.SetActive(true);
+        ScoreUIPanel.SetActive(false);
+        GameOverPanel.SetActive(false);
+        feedbackPopup.SetActive(false);
+        questionUIPrefab.SetActive(false);
+
+        // Populate available questions from the dictionary
+        foreach (var question in questionToAnswer.Keys)
+        {
+            availableQuestions.Add(question);
+        }
+        ResetGame();
+    }
 
     public void StartGame()
     {
         InstructionsPanel.SetActive(false);
         ScoreUIPanel.SetActive(true);
-        nextQuestionButton.gameObject.SetActive(false);
-        feedbackPopup.SetActive(false);
         GoToNextQuestion();
+    }
+
+    private void ResetGame()
+    {
+        score = 0;
+        totalTime = 0f;
+        askedQuestions.Clear(); // Clear the list of asked questions
+        // Ensure availableQuestions is filled if starting a new game after playing
+        if (availableQuestions.Count < questionToAnswer.Count)
+        {
+            foreach (var question in questionToAnswer.Keys)
+            {
+                if (!askedQuestions.Contains(question))
+                {
+                    availableQuestions.Add(question);
+                }
+            }
+        }
+        currentTime = timeLimit;
     }
 
     void Update()
@@ -58,119 +108,174 @@ public class GameManager : MonoBehaviour
         {
             currentTime -= Time.deltaTime;
             UpdateTimerUI();
-
             if (currentTime <= 0f)
             {
                 TimeRanOut();
             }
         }
     }
+
     public void GoToNextQuestion()
     {
-        if (currentQuestionIndex >= questions.Length)
+        // Check if the game has already asked 10 questions
+        if (askedQuestions.Count >= 10)
         {
-            EndGame();
+            EndGame(); // Call EndGame function to handle game over logic
             return;
         }
 
-        questionUIPrefab.SetActive(true); // Ensure the question prefab is visible
-        feedbackPopup.SetActive(false);
-        nextQuestionButton.gameObject.SetActive(false);
-        isAnsweringQuestion = true;
+        // Select a random question from the list of available questions
+        int questionIndex = Random.Range(0, availableQuestions.Count);
+        currentQuestion = availableQuestions[questionIndex]; // Update the current question
 
-        currentQuestionPlanet = answers[currentQuestionIndex];
-        questionText.text = questions[currentQuestionIndex];
-        currentTime = timeLimit;
-        UpdateTimerUI();
+        // Move the selected question from available to asked to avoid repeats
+        askedQuestions.Add(currentQuestion);
+        availableQuestions.RemoveAt(questionIndex);
+
+        // Update UI elements to reflect the new question
+        questionText.text = currentQuestion;
+        questionUIPrefab.SetActive(true); // Show the question UI
+        feedbackPopup.SetActive(false); // Ensure feedback popup is hidden
+        nextQuestionButton.gameObject.SetActive(false); // Hide the "Next Question" button
+
+        // Start timing the answer period for the new question
+        isAnsweringQuestion = true;
+        currentTime = timeLimit; // Reset the timer for the new question
+        UpdateTimerUI(); // Update the UI to show the reset timer
+        UpdateScoreUI(); // Update the score UI to show the current score
     }
 
-    public void CorrectPlanetScanned()
+    public void AnswerSubmitted(string submittedAnswer)
     {
-        if (!isAnsweringQuestion)
-        {
-            return;
-        }
-        UpdateScoreUI();
-        ShowFeedback(true);
-        feedbackShown = true;
-        isAnsweringQuestion = false;
-        questionUIPrefab.SetActive(false); // Hide the question prefab as the correct answer is shown
-        currentQuestionIndex++;
+        if (!isAnsweringQuestion) return;
 
-        if (currentQuestionIndex < questions.Length)
+        string correctAnswer = questionToAnswer[questionText.text];
+        bool isCorrect = submittedAnswer.Equals(correctAnswer, System.StringComparison.OrdinalIgnoreCase);
+
+        if (isCorrect)
         {
-            nextQuestionButton.gameObject.SetActive(true); // Re-enable the button after hiding the feedback
+            CorrectAnswerSelected();
         }
         else
         {
-            // If there are no more questions, you might want to automatically end the game or prompt the user differently
+            WrongAnswerSelected();
+        }
+    }
+
+    public void CorrectAnswerSelected()
+    {
+        score += Mathf.CeilToInt(currentTime);
+        ShowFeedback(true);
+        isShowingFeedback = true;
+        isAnsweringQuestion = false;
+        questionUIPrefab.SetActive(false);
+        totalTime += timeLimit - currentTime;
+        UpdateScoreUI();
+
+        if (askedQuestions.Count < 10)
+        {
+            nextQuestionButton.gameObject.SetActive(true);
+        }
+        else
+        {
             EndGame();
         }
     }
 
-    public void WrongPlanetScanned(string scannedPlanet)
+    public void WrongAnswerSelected()
     {
-        if (!isAnsweringQuestion)
-        {
-            return;
-        }
-        ShowFeedback(false, scannedPlanet);
-        feedbackShown = true;
+        ShowFeedback(false);
+        isShowingFeedback = true;
     }
 
-
-    private void ShowFeedback(bool isCorrect, string scannedPlanet = null)
+    private void ShowFeedback(bool isCorrect)
     {
-        if (feedbackShown)
-        {
-            return;
-        }
+        if (isShowingFeedback) return;
+
         feedbackPopup.SetActive(true);
-        feedbackText.text = isCorrect ? "Correct!" : "Incorrect! Try again.";
-        if (!isCorrect && scannedPlanet != null)
-        {
-            feedbackText.text += " You scanned " + scannedPlanet + " instead.";
-        }
-        StartCoroutine(HideFeedbackAfterDelay(2f)); // Optionally adjust the delay based on your preference
+        feedbackText.text = isCorrect ? "Correct!" : "Try again!";
+        StartCoroutine(HideFeedbackAfterDelay(2f));
     }
 
     private IEnumerator HideFeedbackAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         feedbackPopup.SetActive(false);
-        feedbackShown = false;
+        isShowingFeedback = false;
     }
 
     private void TimeRanOut()
     {
         ShowFeedback(false);
         isAnsweringQuestion = false;
-        currentQuestionIndex++;
+        questionUIPrefab.SetActive(false);
+        if (askedQuestions.Count < 10)
+        {
+            nextQuestionButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            EndGame();
+        }
     }
 
     private void UpdateTimerUI()
     {
-        timerText.text = Mathf.CeilToInt(currentTime).ToString();
+        timerText.text = $"{Mathf.CeilToInt(currentTime)}s";
     }
 
     private void UpdateScoreUI()
     {
-        if (isAnsweringQuestion)
-        {
-            score += Mathf.CeilToInt(currentTime);
-            scoreText.text = score.ToString();
-        }
+        score += isAnsweringQuestion ? Mathf.CeilToInt(currentTime) : 0;
+        scoreText.text = $"{score}";
     }
 
     private void EndGame()
     {
-        // Here you could show a game over screen or transition back to a main menu
-        Debug.Log("Game Over! Final Score: " + score);
+        GameOverPanel.SetActive(true);
+        finalScoreText.text = score.ToString();
+        finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + "s";
+        DisplayStarsBasedOnScore();
     }
 
-    // Utility method for the GameManager to know the current question's planet
-    public string GetCurrentQuestionPlanet()
+    private void DisplayStarsBasedOnScore()
     {
-        return currentQuestionPlanet;
+        // Correctly pass the necessary parameters to CalculateStars
+        int starsToShow = CalculateStars(score, askedQuestions.Count, Mathf.CeilToInt(timeLimit));
+        for (int i = 0; i < starImages.Length; i++)
+        {
+            starImages[i].gameObject.SetActive(i < starsToShow);
+        }
+    }
+
+    private void PlayAgain()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("PlanetExplorer");
+    }
+
+    private int CalculateStars(int score, int totalQuestions, int maxScorePerQuestion)
+    {
+        int totalPossibleScore = totalQuestions * maxScorePerQuestion;
+        float scorePercentage = (float)score / totalPossibleScore * 100;
+
+        if (scorePercentage >= 75) return 3;
+        if (scorePercentage >= 50) return 2;
+        return 1;
+    }
+
+
+    public bool IsAnsweringQuestion()
+    {
+        return isAnsweringQuestion;
+    }
+
+    public string GetCurrentQuestionAnswer()
+    {
+        // Ensure there's a current question set, and retrieve the answer.
+        if (!string.IsNullOrEmpty(currentQuestion) && questionToAnswer.ContainsKey(currentQuestion))
+        {
+            return questionToAnswer[currentQuestion];
+        }
+        return string.Empty; // Return an empty string if no question is set or found.
     }
 }

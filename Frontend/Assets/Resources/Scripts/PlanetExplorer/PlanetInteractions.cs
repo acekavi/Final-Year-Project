@@ -127,5 +127,6 @@ public class PlanetInteraction : MonoBehaviour
     private void ShowPlanetInfo()
     {
         // Logic to show the planet's information panel
+        GameObject infoPanel = Instantiate(infoPanelPrefab, transform.position, Quaternion.identity);
     }
 }

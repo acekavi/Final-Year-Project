@@ -49,6 +49,7 @@ public class RegisterManager : MonoBehaviour
             yield return new WaitForSeconds(3); // Show feedback for 3 seconds
             feedbackPopup.SetActive(false);
             // Optionally, navigate to login scene or automatically log in the user
+            UnityEngine.SceneManagement.SceneManager.LoadScene("loginMenu");
         }
     }
 }
