@@ -22,6 +22,13 @@ public class GameManager : MonoBehaviour
     public TMP_Text finalTotalTimeText;
     public Image[] starImages;
 
+    [Header("Audio Clips")]
+    public AudioClip correctAnswerClip;
+    public AudioClip wrongAnswerClip;
+    public AudioClip timeUpClip;
+    public AudioClip gameoverClip;
+    public AudioClip[] questionClips;
+
     private readonly float timeLimit = 60f;
     private float currentTime;
     private int score = -60;
@@ -29,6 +36,8 @@ public class GameManager : MonoBehaviour
     private bool isAnsweringQuestion = false;
     private float totalTime = 0f;
     private bool isShowingFeedback = false;
+    private AudioSource currentQuestionClip;
+    private Dictionary<string, AudioClip> questionToAudioclip = new Dictionary<string, AudioClip>();
 
     private readonly Dictionary<string, string> questionToAnswer = new Dictionary<string, string>()
     {
@@ -39,7 +48,7 @@ public class GameManager : MonoBehaviour
         {"Which planet is known as the Evening Star because of its bright appearance?", "Venus"},
         {"This planet is tilted on its side, making it unique. Which planet is it?", "Uranus"},
         {"Which planet is known for its extreme winds and blue color due to methane in its atmosphere?", "Neptune"},
-        {"planet has a moon named Titan, which is larger than the planet Mercury?", "Saturn"},
+        {"This planet has a moon named Titan, which is larger than the planet Mercury?", "Saturn"},
         {"On which planet would you weigh the least, due to its small size and low gravity?", "Mercury"},
         {"Which planet is known as the Red Planet because of its reddish appearance?", "Mars"},
         {"Which planet is known for its bright blue color and is often called the 'Ice Giant'?", "Neptune"},
@@ -73,7 +82,14 @@ public class GameManager : MonoBehaviour
         {
             availableQuestions.Add(question);
         }
+
+        foreach (var question in questionToAnswer.Keys)
+        {
+            questionToAudioclip.Add(question, questionClips[availableQuestions.IndexOf(question)]);
+        }
+
         ResetGame();
+        currentQuestionClip = gameObject.AddComponent<AudioSource>();
     }
 
     public void StartGame()
@@ -138,6 +154,13 @@ public class GameManager : MonoBehaviour
         feedbackPopup.SetActive(false); // Ensure feedback popup is hidden
         nextQuestionButton.gameObject.SetActive(false); // Hide the "Next Question" button
 
+        // Play the sound clip for the current question
+        if (questionToAudioclip.TryGetValue(currentQuestion, out AudioClip clip))
+        {
+            currentQuestionClip.clip = clip;
+            currentQuestionClip.Play();
+        }
+
         // Start timing the answer period for the new question
         isAnsweringQuestion = true;
         currentTime = timeLimit; // Reset the timer for the new question
@@ -161,6 +184,12 @@ public class GameManager : MonoBehaviour
 
     public void CorrectAnswerSelected()
     {
+        AudioSource.PlayClipAtPoint(correctAnswerClip, Camera.main.transform.position);
+        // Stop the current clip if it's playing
+        if (currentQuestionClip.isPlaying)
+        {
+            currentQuestionClip.Stop();
+        }
         score += Mathf.CeilToInt(currentTime);
         questionUIPrefab.SetActive(false);
         isAnsweringQuestion = false;
@@ -222,6 +251,7 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+        AudioSource.PlayClipAtPoint(gameoverClip, Camera.main.transform.position);
         GameOverPanel.SetActive(true);
         finalScoreText.text = $"{score}";
         finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + "s";

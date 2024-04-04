@@ -2086,6 +2086,26 @@ MonoBehaviour:
   - {fileID: 4357174208835200168}
   - {fileID: 2803244770415899332}
   - {fileID: 4779969866616444183}
+  correctAnswerClip: {fileID: 8300000, guid: 92dec1778db44914681b19277fa4a56d, type: 3}
+  wrongAnswerClip: {fileID: 0}
+  timeUpClip: {fileID: 0}
+  gameoverClip: {fileID: 8300000, guid: 350dc1e2a58290143b7ebb9f47f304d7, type: 3}
+  questionClips:
+  - {fileID: 8300000, guid: 1c23986c8a828eb49b738f2f1e059de2, type: 3}
+  - {fileID: 8300000, guid: 849425d0f9e59c84dbf7d49f0d92f226, type: 3}
+  - {fileID: 8300000, guid: db5956c8e9267cc45a78a6c6d04e15e1, type: 3}
+  - {fileID: 8300000, guid: 8a7df27ccfcc56248ae70ac4cc990afb, type: 3}
+  - {fileID: 8300000, guid: f826277cb45fcca4abe8032fc2601f49, type: 3}
+  - {fileID: 8300000, guid: b51741a94a41cfd4291a8a48d4a9590b, type: 3}
+  - {fileID: 8300000, guid: 7b6bd0bc93437134e8b2c9b8401b7736, type: 3}
+  - {fileID: 8300000, guid: 3c9d3063bdf4ab644ae9c31e2a85a9f7, type: 3}
+  - {fileID: 8300000, guid: 76d15027d6e8cf343a378e658976df55, type: 3}
+  - {fileID: 8300000, guid: cdbaa40c57760de44af15c5df36a110a, type: 3}
+  - {fileID: 8300000, guid: 97d3cc3ae0df13e47a7a875acd11bd11, type: 3}
+  - {fileID: 8300000, guid: c6c7f0c1098e10243873dfca3d38a3c1, type: 3}
+  - {fileID: 8300000, guid: add875740941a9a40b938fdfd6eb4f74, type: 3}
+  - {fileID: 8300000, guid: 158bb9f0444ecb540a667bcbb563482d, type: 3}
+  - {fileID: 8300000, guid: 0f63068d212cdde4ea713ab3c2270da6, type: 3}
 --- !u!114 &1193622405
 MonoBehaviour:
   m_ObjectHideFlags: 0
