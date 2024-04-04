@@ -52,11 +52,12 @@ public class GameManager : MonoBehaviour
     // Updated to use lists for questions and answers
     private readonly List<string> availableQuestions = new();
     private readonly List<string> askedQuestions = new();
-
+    private ImageTracker imageTracker;
 
     private void Start()
     {
         SetupGame();
+        imageTracker = GetComponent<ImageTracker>();
     }
 
     private void SetupGame()
@@ -140,6 +141,7 @@ public class GameManager : MonoBehaviour
         // Start timing the answer period for the new question
         isAnsweringQuestion = true;
         currentTime = timeLimit; // Reset the timer for the new question
+        imageTracker.ClearSpawnedPlanet(); // Remove the current planet if it exists
         UpdateTimerUI(); // Update the UI to show the reset timer
         UpdateScoreUI(); // Update the score UI to show the current score
     }
@@ -164,6 +166,7 @@ public class GameManager : MonoBehaviour
         isAnsweringQuestion = false;
         totalTime += timeLimit - currentTime;
         UpdateScoreUI();
+
         if (askedQuestions.Count < 10)
         {
             ShowFeedback();

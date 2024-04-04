@@ -15,3 +15,9 @@ MonoBehaviour:
   rotationSpeed: 10
   rotationAxis: {x: 0, y: 1, z: 0.44}
   autoRotationSpeed: 1.03
+  funFacts:
+  - Mars is red due to iron oxide (rust) on its surface.
+  - It is home to Olympus Mons, the tallest volcano in the solar system.
+  - Mars has polar ice caps that contain water ice and dry ice (frozen CO2).
+  - Evidence of ancient rivers suggests Mars once had liquid water.
+  - It is the most explored planet beyond Earth, with ongoing missions.

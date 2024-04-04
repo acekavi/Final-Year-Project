@@ -14,4 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 10
   rotationAxis: {x: 0, y: 1, z: 0.41}
-  autoRotationSpeed: 1
+  autoRotationSpeed: 2
+  funFacts:
+  - Earth is the only planet known to have liquid water on its surface.
+  - It's the only planet in our solar system known to harbor life.
+  - Earth's surface is made of tectonic plates that slowly move around.
+  - Our atmosphere is unique, with about 21% oxygen, allowing humans and animals
+    to breathe.
+  - The Moon stabilizes Earth's tilt, influencing our climate and seasons.

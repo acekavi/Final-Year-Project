@@ -14,4 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 6
   rotationAxis: {x: 0, y: 1, z: 0}
-  autoRotationSpeed: 0.004
+  autoRotationSpeed: 1
+  funFacts:
+  - Mercury is the closest planet to the Sun but isn't the hottest, thanks to its
+    lack of atmosphere.
+  - Its surface is heavily cratered, resembling our Moon.
+  - A year on Mercury (one orbit around the Sun) takes only 88 Earth days.
+  - Mercury experiences the most significant temperature fluctuations, from blistering
+    hot to freezing cold.
+  - It's the smallest planet in our solar system.

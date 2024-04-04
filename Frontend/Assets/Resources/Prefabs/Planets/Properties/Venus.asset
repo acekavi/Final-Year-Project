@@ -15,3 +15,12 @@ MonoBehaviour:
   rotationSpeed: 4
   rotationAxis: {x: 0, y: 1, z: 0.41}
   autoRotationSpeed: 1
+  funFacts:
+  - Venus spins backward on its axis compared to most planets, making the Sun rise
+    in the west and set in the east.
+  - Its thick atmosphere traps heat, making it the hottest planet in our solar system.
+  - The surface is dominated by volcanic landscapes and has more volcanoes than any
+    other planet.
+  - Venus' surface pressure is 90 times that of Earth, equivalent to being a mile
+    underwater.
+  - Venus is the brightest planet in our sky, visible even during the day.

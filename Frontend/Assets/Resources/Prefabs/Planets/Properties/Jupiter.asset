@@ -15,3 +15,11 @@ MonoBehaviour:
   rotationSpeed: 30
   rotationAxis: {x: 0, y: 1, z: 0}
   autoRotationSpeed: 2.2
+  funFacts:
+  - Jupiter is the largest planet in our solar system.
+  - A giant storm, known as the Great Red Spot, has raged for at least 400 years.
+  - Jupiter has 79 known moons, including Ganymede, the largest moon in the solar
+    system.
+  - It has the shortest day, with one rotation taking just under 10 hours.
+  - Jupiter has the strongest magnetic field of all the planets, contributing to
+    its intense auroras.

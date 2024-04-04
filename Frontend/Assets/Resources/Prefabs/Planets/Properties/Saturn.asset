@@ -15,3 +15,9 @@ MonoBehaviour:
   rotationSpeed: 25
   rotationAxis: {x: 0, y: 1, z: 0.47}
   autoRotationSpeed: 2.2
+  funFacts:
+  - Saturn is most well-known for its stunning rings made of ice and rock.
+  - If there were a bathtub big enough, Saturn would float.
+  - Saturn spins fast, causing it to flatten at the poles and bulge at the equator.
+  - "Titan, Saturn\u2019s largest moon, has lakes of liquid methane and an atmosphere."
+  - Like Jupiter, Saturn also experiences massive storms.

@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 public class PlanetInteraction : MonoBehaviour
 {
-    [SerializeField] private GameObject infoPanelPrefab;
     [SerializeField] private PlanetProperties planetProperties;
     private Camera mainCamera;
     private TouchControls touchControls;
@@ -126,7 +126,14 @@ public class PlanetInteraction : MonoBehaviour
 
     private void ShowPlanetInfo()
     {
-        // Logic to show the planet's information panel
-        GameObject infoPanel = Instantiate(infoPanelPrefab, transform.position, Quaternion.identity);
+        // Assuming funFactsDisplay is a UI element in your scene set to inactive by default
+        var funFactsDisplay = FindObjectOfType<FunFactsDisplay>();
+        if (funFactsDisplay != null)
+        {
+            // Set the facts for the currently selected planet
+            funFactsDisplay.SetFacts(planetProperties.funFacts);
+            // Activate the UI element to show it
+            funFactsDisplay.gameObject.SetActive(true);
+        }
     }
 }

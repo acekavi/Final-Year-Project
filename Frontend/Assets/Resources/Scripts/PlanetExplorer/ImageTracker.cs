@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-public class ImageTracking : MonoBehaviour
+public class ImageTracker : MonoBehaviour
 {
     [SerializeField]
     private ARTrackedImageManager trackedImageManager;
@@ -28,8 +28,7 @@ public class ImageTracking : MonoBehaviour
             planetPrefabsMap[prefab.name] = prefab;
         }
 
-        // Find the GameManager in the scene.
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = GetComponent<GameManager>();
     }
 
     private void OnEnable()
@@ -90,6 +89,14 @@ public class ImageTracking : MonoBehaviour
         if (planetPrefabsMap.TryGetValue(planetName, out GameObject planetPrefab))
         {
             currentSpawnedPlanet = Instantiate(planetPrefab, position, Quaternion.identity);
+        }
+    }
+
+    public void ClearSpawnedPlanet()
+    {
+        if (currentSpawnedPlanet != null)
+        {
+            Destroy(currentSpawnedPlanet);
         }
     }
 }
