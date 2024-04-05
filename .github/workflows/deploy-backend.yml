@@ -24,6 +24,6 @@ jobs:
         ssh -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.HOST }} << EOF
           cd ~/Final-Year-Project/Backend
           git pull
-          npm install --production
+          npm install
           pm2 restart all
         EOF
