@@ -6,32 +6,36 @@ const secretKey: string = process.env.JWT_SECRET || '';
 
 // Extend the Express Request type to include the user property
 interface RequestWithUser extends Request {
-    user?: string | JwtPayload;
+  user?: string | JwtPayload;
 }
 
-function checkBearerToken(req: RequestWithUser, res: Response, next: NextFunction): Response | void {
-    const token = req.header('Authorization');
+function checkBearerToken(
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+): Response | void {
+  const token = req.header('Authorization');
 
-    if (!token) {
-        return res.status(401).json({
-            message: 'Unauthorized - Missing bearer token',
-            auth: false,
-        });
+  if (!token) {
+    return res.status(401).json({
+      message: 'Unauthorized - Missing bearer token',
+      auth: false,
+    });
+  }
+
+  const tokenValue = token.replace('Bearer ', '');
+
+  jwt.verify(tokenValue, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({
+        message: 'Unauthorized - Invalid token',
+        auth: false,
+      });
     }
 
-    const tokenValue = token.replace('Bearer ', '');
-
-    jwt.verify(tokenValue, secretKey, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({
-                message: 'Unauthorized - Invalid token',
-                auth: false
-            });
-        }
-
-        req.user = decoded; // Assuming decoded token is the user info
-        next();
-    });
+    req.user = decoded; // Assuming decoded token is the user info
+    next();
+  });
 }
 
 export default checkBearerToken;
