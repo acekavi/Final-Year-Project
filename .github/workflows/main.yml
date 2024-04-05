@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]  # or any version you're using
+        node-version: [20.x]  # Ensure this matches the version you're using
 
     steps:
     - uses: actions/checkout@v2
@@ -21,9 +21,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+        # If you are using a package-lock.json or need to cache modules, consider adding caching steps here
     - name: Install dependencies
-      run: npm install
+      run: |
+        cd Backend
+        npm install
     - name: Lint and Build
       run: |
+        cd Backend
         npm run lint
         npm run build
