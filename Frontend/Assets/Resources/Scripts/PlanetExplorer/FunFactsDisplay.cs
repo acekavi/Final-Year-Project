@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FunFactsDisplay : MonoBehaviour
 {
-    public GameObject funFactsPanel;
     public TMP_Text factText;
     private List<string> currentFacts;
     private int currentIndex = 0;
@@ -42,7 +41,6 @@ public class FunFactsDisplay : MonoBehaviour
     {
         if (currentFacts != null && currentIndex >= 0 && currentIndex < currentFacts.Count)
         {
-            funFactsPanel.SetActive(true);
             factText.text = currentFacts[currentIndex];
         }
         else

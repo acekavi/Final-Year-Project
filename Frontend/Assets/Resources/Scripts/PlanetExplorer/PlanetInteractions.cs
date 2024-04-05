@@ -6,15 +6,20 @@ using UnityEngine.InputSystem.Controls;
 public class PlanetInteraction : MonoBehaviour
 {
     [SerializeField] private PlanetProperties planetProperties;
+    [SerializeField] private GameObject funFactsPanel;
     private Camera mainCamera;
     private TouchControls touchControls;
     private float initialPinchDistance;
     private float initialFieldOfView;
     private Vector2? lastTouchPosition = null;
     private bool isPinching = false;
+    private bool isShowingDidYouKnow = false;
+    private FunFactsDisplay funFactsDisplay;
 
     private void Awake()
     {
+        funFactsDisplay = GetComponent<FunFactsDisplay>();
+        funFactsDisplay.SetFacts(planetProperties.funFacts);
         touchControls = new TouchControls();
         mainCamera = Camera.main; // Cache the main camera
         SetupTouchControls();
@@ -126,14 +131,17 @@ public class PlanetInteraction : MonoBehaviour
 
     private void ShowPlanetInfo()
     {
-        // Assuming funFactsDisplay is a UI element in your scene set to inactive by default
-        var funFactsDisplay = FindObjectOfType<FunFactsDisplay>();
-        if (funFactsDisplay != null)
-        {
-            // Set the facts for the currently selected planet
-            funFactsDisplay.SetFacts(planetProperties.funFacts);
-            // Activate the UI element to show it
-            funFactsDisplay.gameObject.SetActive(true);
-        }
+        if (isShowingDidYouKnow) return;
+
+        funFactsPanel.SetActive(true);
+        isShowingDidYouKnow = true;
+    }
+
+    public void HidePlanetInfo()
+    {
+        if (!isShowingDidYouKnow) return;
+
+        funFactsPanel.SetActive(false);
+        isShowingDidYouKnow = false;
     }
 }

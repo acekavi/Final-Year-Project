@@ -5043,6 +5043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetProperties: {fileID: 11400000, guid: 4d0ebdba669df3348b297be46c83cb12, type: 2}
+  funFactsPanel: {fileID: 1009956295410847301}
 --- !u!114 &-5834815920088939543
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5055,7 +5056,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1322eb6192940734a92c256e92c87c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  funFactsPanel: {fileID: 1009956295410847301}
   factText: {fileID: 1365957982012779693}
 --- !u!1 &4167389006596584321
 GameObject:
@@ -5410,6 +5410,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389266656212378368, guid: 897b6847e31ebb84ba803641a940779e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389266656212378368, guid: 897b6847e31ebb84ba803641a940779e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5685819567600979641}
+    - target: {fileID: 7389266656212378368, guid: 897b6847e31ebb84ba803641a940779e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: HidePlanetInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389266656212378368, guid: 897b6847e31ebb84ba803641a940779e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlanetInteraction, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7389266656212378368, guid: 897b6847e31ebb84ba803641a940779e,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

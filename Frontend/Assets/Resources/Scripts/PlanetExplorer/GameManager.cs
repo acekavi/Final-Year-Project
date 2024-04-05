@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour
     public GameObject questionUIPrefab;
     public TMP_Text questionText;
     public TMP_Text scoreText;
+    public GameObject ScoreUIPanel;
     public TMP_Text timerText;
-    public GameObject feedbackPopup;
     public Button nextQuestionButton;
     public GameObject InstructionsPanel;
-    public GameObject ScoreUIPanel;
+    public GameObject CorrectAnswerPopup;
+    public GameObject TryAgainPopup;
 
     [Header("Game Over Panel")]
     public GameObject GameOverPanel;
@@ -31,11 +32,12 @@ public class GameManager : MonoBehaviour
 
     private readonly float timeLimit = 60f;
     private float currentTime;
-    private int score = -60;
+    private int score = 0;
     private string currentQuestion = string.Empty;
     private bool isAnsweringQuestion = false;
     private float totalTime = 0f;
-    private bool isShowingFeedback = false;
+    private bool isShowingWelldone = false;
+    private bool isShowingTryAgain = false;
     private AudioSource currentQuestionClip;
     private Dictionary<string, AudioClip> questionToAudioclip = new Dictionary<string, AudioClip>();
 
@@ -74,8 +76,10 @@ public class GameManager : MonoBehaviour
         InstructionsPanel.SetActive(true);
         ScoreUIPanel.SetActive(false);
         GameOverPanel.SetActive(false);
-        feedbackPopup.SetActive(false);
+        CorrectAnswerPopup.SetActive(false);
         questionUIPrefab.SetActive(false);
+        TryAgainPopup.SetActive(false);
+        nextQuestionButton.gameObject.SetActive(false);
 
         // Populate available questions from the dictionary
         foreach (var question in questionToAnswer.Keys)
@@ -96,12 +100,13 @@ public class GameManager : MonoBehaviour
     {
         InstructionsPanel.SetActive(false);
         ScoreUIPanel.SetActive(true);
+        scoreText.text = "0";
         GoToNextQuestion();
     }
 
     private void ResetGame()
     {
-        score = -60;
+        score = 0;
         totalTime = 0f;
         askedQuestions.Clear(); // Clear the list of asked questions
         // Ensure availableQuestions is filled if starting a new game after playing
@@ -151,7 +156,7 @@ public class GameManager : MonoBehaviour
         // Update UI elements to reflect the new question
         questionText.text = currentQuestion;
         questionUIPrefab.SetActive(true); // Show the question UI
-        feedbackPopup.SetActive(false); // Ensure feedback popup is hidden
+        CorrectAnswerPopup.SetActive(false); // Ensure feedback popup is hidden
         nextQuestionButton.gameObject.SetActive(false); // Hide the "Next Question" button
 
         // Play the sound clip for the current question
@@ -166,70 +171,117 @@ public class GameManager : MonoBehaviour
         currentTime = timeLimit; // Reset the timer for the new question
         imageTracker.ClearSpawnedPlanet(); // Remove the current planet if it exists
         UpdateTimerUI(); // Update the UI to show the reset timer
-        UpdateScoreUI(); // Update the score UI to show the current score
-    }
-
-    public void AnswerSubmitted(string submittedAnswer)
-    {
-        if (!isAnsweringQuestion) return;
-
-        string correctAnswer = questionToAnswer[questionText.text];
-        bool isCorrect = submittedAnswer.Equals(correctAnswer, System.StringComparison.OrdinalIgnoreCase);
-
-        if (isCorrect)
-        {
-            CorrectAnswerSelected();
-        }
     }
 
     public void CorrectAnswerSelected()
     {
         AudioSource.PlayClipAtPoint(correctAnswerClip, Camera.main.transform.position);
+
         // Stop the current clip if it's playing
         if (currentQuestionClip.isPlaying)
         {
             currentQuestionClip.Stop();
         }
-        score += Mathf.CeilToInt(currentTime);
+
+        // Hide the question panel
         questionUIPrefab.SetActive(false);
+
+        // Stop the answering process
         isAnsweringQuestion = false;
-        totalTime += timeLimit - currentTime;
+
+        // Update total time
+        totalTime += currentTime;
+
+        // Update score UI
         UpdateScoreUI();
 
+        // Check if the maximum number of questions has been reached
         if (askedQuestions.Count < 10)
         {
-            ShowFeedback();
-            isShowingFeedback = true;
+            // Show the "Correct Answer" popup
+            ShowCorrectAnswerPopup();
+            isShowingWelldone = true;
         }
         else
         {
+            // End the game if the maximum number of questions has been reached
             EndGame();
         }
     }
 
-
-    private void ShowFeedback()
+    private void ShowCorrectAnswerPopup()
     {
-        if (isShowingFeedback) return;
+        if (isShowingWelldone) return;
 
-        feedbackPopup.SetActive(true);
-        StartCoroutine(HideFeedbackAfterDelay(2f));
+        // Show the "Correct Answer" popup
+        CorrectAnswerPopup.SetActive(true);
+
+        // Hide the popup after a delay
+        StartCoroutine(HideWelldonePopup(2f));
     }
 
-    private IEnumerator HideFeedbackAfterDelay(float delay)
+    private IEnumerator HideWelldonePopup(float delay)
     {
         yield return new WaitForSeconds(delay);
-        feedbackPopup.SetActive(false);
-        isShowingFeedback = false;
+
+        // Hide the "Correct Answer" popup
+        CorrectAnswerPopup.SetActive(false);
+
+        // Reset the flag indicating the popup is showing
+        isShowingWelldone = false;
+
+        // Show the "Next Question" button
         nextQuestionButton.gameObject.SetActive(true);
     }
 
+    public void WrongAnswerSelected()
+    {
+        // Prevent the "Try Again" popup from running again if it's already active
+        if (isShowingTryAgain) return;
+
+        // Stop the current question clip if it's playing
+        if (currentQuestionClip.isPlaying)
+        {
+            currentQuestionClip.Stop();
+        }
+
+        // Play the wrong answer audio clip
+        AudioSource.PlayClipAtPoint(wrongAnswerClip, Camera.main.transform.position);
+
+        // Deduct score if applicable
+        if (score >= 10)
+        {
+            score -= 10;
+            scoreText.text = $"{score}";
+        }
+
+        // Show the "Try Again" popup
+        TryAgainPopup.SetActive(true);
+        isShowingTryAgain = true;
+
+        // Hide the question panel for 3 seconds
+        StartCoroutine(HideQuestionPanelForSeconds(3f));
+    }
+
+    private IEnumerator HideQuestionPanelForSeconds(float seconds)
+    {
+        // Wait for the specified duration
+        yield return new WaitForSeconds(seconds);
+
+        // Hide the "Try Again" popup and show the question panel again
+        TryAgainPopup.SetActive(false);
+        questionUIPrefab.SetActive(true);
+
+        // Reset the flag indicating the "Try Again" popup is showing
+        isShowingTryAgain = false;
+    }
     private void TimeRanOut()
     {
         isAnsweringQuestion = false;
         questionUIPrefab.SetActive(false);
         if (askedQuestions.Count < 10)
         {
+            AudioSource.PlayClipAtPoint(timeUpClip, Camera.main.transform.position);
             nextQuestionButton.gameObject.SetActive(true);
         }
         else
@@ -245,7 +297,10 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        score += isAnsweringQuestion ? Mathf.CeilToInt(currentTime) : 0;
+        int timeRemaining = Mathf.CeilToInt(currentTime);
+        float normalizedTime = Mathf.Clamp01(timeRemaining / timeLimit); // Normalize the time remaining between 0 and 1
+        int scoreIncrement = Mathf.RoundToInt(Mathf.Lerp(0, 100, normalizedTime)); // Interpolate between 0 and 100 based on normalized time
+        score += scoreIncrement;
         scoreText.text = $"{score}";
     }
 

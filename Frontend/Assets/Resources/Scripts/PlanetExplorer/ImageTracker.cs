@@ -75,6 +75,11 @@ public class ImageTracker : MonoBehaviour
             gameManager.CorrectAnswerSelected();
             SpawnPlanet(name, trackedImage.transform.position, trackedImage);
         }
+        else
+        {
+            // Incorrectly identified the planet for the current question
+            gameManager.WrongAnswerSelected();
+        }
     }
 
     private void SpawnPlanet(string planetName, Vector3 position, ARTrackedImage trackedImage)
