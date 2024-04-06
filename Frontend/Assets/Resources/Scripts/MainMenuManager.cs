@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -12,17 +13,32 @@ public class AuthResponse
     public bool auth;
 }
 
+[System.Serializable]
+public class UserDetailsResponse
+{
+    public string email;
+    public string name;
+    public int age;
+    public string[] achievements;
+    public string[] badges;
+    public int level;
+}
+
 public class MainMenuManager : MonoBehaviour
 {
     public Button loginButton;
     public Button registerButton;
     public Button playButton;
+    public Button profileButton;
+    public TMP_Text usernameText;
 
     private string authCheckUrl; // Will be loaded from config.json
+    private string userDetailUrl; // Will be loaded from config.json
 
     void Start()
     {
         authCheckUrl = ConfigManager.GetApiUrl("/api/users/check/auth");
+        userDetailUrl = ConfigManager.GetApiUrl("/api/users/details");
         StartCoroutine(CheckAuthentication());
     }
 
@@ -46,6 +62,7 @@ public class MainMenuManager : MonoBehaviour
             if (response.auth)
             {
                 ShowPlayButton();
+                StartCoroutine(GetUsername());
             }
             else
             {
@@ -59,11 +76,34 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
+    IEnumerator GetUsername()
+    {
+        string token = PlayerPrefs.GetString("AuthToken", "");
+        UnityWebRequest request = UnityWebRequest.Get(userDetailUrl);
+        request.SetRequestHeader
+
+        ("Authorization", "Bearer " + token);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            // Assuming the server responds with a JSON object containing a 'username' field.
+            UserDetailsResponse response = JsonUtility.FromJson<UserDetailsResponse>(request.downloadHandler.text);
+            usernameText.text = response.name;
+        }
+        else
+        {
+            // Handle error (e.g., show an error message)
+            Debug.Log(request.error);
+        }
+    }
+
     void ShowLoginRegisterButtons()
     {
         loginButton.gameObject.SetActive(true);
         registerButton.gameObject.SetActive(true);
         playButton.gameObject.SetActive(false);
+        profileButton.gameObject.SetActive(false);
     }
 
     void ShowPlayButton()
@@ -71,5 +111,6 @@ public class MainMenuManager : MonoBehaviour
         loginButton.gameObject.SetActive(false);
         registerButton.gameObject.SetActive(false);
         playButton.gameObject.SetActive(true);
+        profileButton.gameObject.SetActive(true);
     }
 }

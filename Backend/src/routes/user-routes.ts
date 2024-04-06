@@ -7,7 +7,7 @@ const router = express.Router();
 // Authentication and User controller end points
 router.post('/register', UserController.create_user);
 router.post('/signin', UserController.signin_user);
-router.get('/:id', CheckAuth, UserController.get_user);
+router.get('/details', CheckAuth, UserController.get_user);
 router.get('/logged/user', CheckAuth, UserController.get_logged_user);
 router.get('/check/auth', CheckAuth, UserController.get_auth_status);
 router.post('/add/achievement', CheckAuth, UserController.add_achievement);

@@ -7,13 +7,19 @@ import User, { IUser } from '../models/user'; // Assume this is a TypeScript mod
 
 const secretKey: string = process.env.JWT_SECRET || '';
 interface DecodedToken extends JwtPayload {
+  email: string;
   userId: string;
   iat: number;
   exp: number;
 }
 
+interface RequestWithUser extends Request {
+  user?: DecodedToken;
+}
+
+// User controller functions
 export const create_user = async (
-  req: Request,
+  req: RequestWithUser,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -62,7 +68,7 @@ export const create_user = async (
 };
 
 export const signin_user = async (
-  req: Request,
+  req: RequestWithUser,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -111,11 +117,11 @@ export const signin_user = async (
 };
 
 export const get_user = (
-  req: Request,
+  req: RequestWithUser,
   res: Response,
   next: NextFunction
 ): void => {
-  User.findById(req.params.id) // Assuming id is a string
+  User.findById(req.user?.userId) // Assuming id is a string
     .select('-password -_id -pass_reset_required -notifications')
     .then((result: IUser | null) => {
       if (result) {
@@ -131,7 +137,7 @@ export const get_user = (
 };
 
 export const get_logged_user = (
-  req: Request,
+  req: RequestWithUser,
   res: Response,
   next: NextFunction
 ): Response | void => {
@@ -171,7 +177,7 @@ export const get_logged_user = (
 };
 
 export const add_achievement = (
-  req: Request,
+  req: RequestWithUser,
   res: Response,
   next: NextFunction
 ): void => {
@@ -205,7 +211,7 @@ export const add_achievement = (
 };
 
 export const get_auth_status = (
-  req: Request,
+  req: RequestWithUser,
   res: Response,
   next: NextFunction
 ): void => {
