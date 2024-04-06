@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 20
   rotationAxis: {x: 0, y: 1, z: 0.49}
-  autoRotationSpeed: 1.6
+  autoRotationSpeed: 2
   funFacts:
   - Neptune is the most distant planet from the Sun in our solar system.
   - It has the fastest winds in the solar system, reaching speeds of more than 1,200

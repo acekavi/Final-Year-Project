@@ -67,6 +67,11 @@ public class MainMenuManager : MonoBehaviour
             else
             {
                 ShowLoginRegisterButtons();
+                PlayerPrefs.DeleteKey("AuthToken");
+                PlayerPrefs.DeleteKey("Username");
+                PlayerPrefs.DeleteKey("Email");
+                PlayerPrefs.DeleteKey("Level");
+                PlayerPrefs.Save();
             }
         }
         else
@@ -90,6 +95,9 @@ public class MainMenuManager : MonoBehaviour
             // Assuming the server responds with a JSON object containing a 'username' field.
             UserDetailsResponse response = JsonUtility.FromJson<UserDetailsResponse>(request.downloadHandler.text);
             usernameText.text = response.name;
+            PlayerPrefs.SetString("Username", response.name);
+            PlayerPrefs.SetString("Email", response.email);
+            PlayerPrefs.SetString("Level", response.level.ToString());
         }
         else
         {

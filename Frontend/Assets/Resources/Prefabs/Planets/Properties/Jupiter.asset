@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 30
   rotationAxis: {x: 0, y: 1, z: 0}
-  autoRotationSpeed: 2.2
+  autoRotationSpeed: 2
   funFacts:
   - Jupiter is the largest planet in our solar system.
   - A giant storm, known as the Great Red Spot, has raged for at least 400 years.

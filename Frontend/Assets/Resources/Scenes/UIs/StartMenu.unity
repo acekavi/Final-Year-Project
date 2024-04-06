@@ -268,7 +268,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -1}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &104821954
@@ -899,7 +899,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'User name
+  m_text: '
 
 '
   m_isRightToLeft: 0
@@ -1725,7 +1725,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 499}
+  m_AnchoredPosition: {x: 0, y: 239}
   m_SizeDelta: {x: 459.5002, y: 423.4607}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1404570120
@@ -1857,7 +1857,7 @@ MonoBehaviour:
   registerButton: {fileID: 977355338}
   playButton: {fileID: 1311533427}
   profileButton: {fileID: 1404570120}
-  usernameText: {fileID: 0}
+  usernameText: {fileID: 358250842}
 --- !u!4 &1419849940
 Transform:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 10
   rotationAxis: {x: 0, y: 1, z: 0.44}
-  autoRotationSpeed: 1.03
+  autoRotationSpeed: 2
   funFacts:
   - Mars is red due to iron oxide (rust) on its surface.
   - It is home to Olympus Mons, the tallest volcano in the solar system.
