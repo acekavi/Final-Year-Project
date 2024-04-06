@@ -4,44 +4,85 @@ using UnityEngine;
 
 public class FunFactsDisplay : MonoBehaviour
 {
-    public TMP_Text factText;
-    private List<string> currentFacts;
+    [SerializeField] private PlanetProperties planetProperties;
+    [SerializeField] private TMP_Text factText;
+    [SerializeField] private GameObject funFactsPanel;
     private int currentIndex = 0;
+    private AudioSource audioSource;
 
-    public void SetFacts(List<string> facts)
+    // Initialize lists only once
+    public void ShowFunFactPanel()
     {
-        currentFacts = new List<string>(facts); // Clone the list to avoid reference issues
+        audioSource = gameObject.AddComponent<AudioSource>();
+        funFactsPanel.SetActive(true);
+        SetFacts(planetProperties.funFacts, planetProperties.funFactAudioClips);
+    }
+
+    public void HideFunFactPanel()
+    {
+        audioSource.Stop();
+        funFactsPanel.SetActive(false);
+    }
+
+    public void SetFacts(List<string> facts, List<AudioClip> audioClips)
+    {
+
         currentIndex = 0; // Reset index whenever setting new facts
-        if (currentFacts.Count > 0)
+
+        if (facts.Count > 0)
         {
-            UpdateFactText();
+            UpdateFacts();
         }
         else
         {
             factText.text = "No facts available."; // Placeholder text if no facts
         }
+
+        if (audioClips.Count == 0)
+        {
+            Debug.LogWarning("No audio clips available. Please check the audio clips list.");
+        }
     }
 
     public void NextFact()
     {
-        if (currentFacts == null || currentFacts.Count == 0) return;
-        currentIndex = (currentIndex + 1) % currentFacts.Count; // Loop back to the start if at the end
-        UpdateFactText();
+        if (planetProperties.funFacts == null || planetProperties.funFacts.Count == 0) return;
+        currentIndex = (currentIndex + 1) % planetProperties.funFacts.Count; // Loop back to the start if at the end
+        UpdateFacts();
     }
 
     public void PreviousFact()
     {
-        if (currentFacts == null || currentFacts.Count == 0) return;
+        if (planetProperties.funFacts == null || planetProperties.funFacts.Count == 0) return;
+
         currentIndex--;
-        if (currentIndex < 0) currentIndex = currentFacts.Count - 1; // Loop to the end if at the start
-        UpdateFactText();
+        if (currentIndex < 0)
+        {
+            currentIndex = planetProperties.funFacts.Count - 1; // Loop to the end if at the start
+        }
+
+        UpdateFacts();
     }
 
-    private void UpdateFactText()
+    private void UpdateFacts()
     {
-        if (currentFacts != null && currentIndex >= 0 && currentIndex < currentFacts.Count)
+        if (planetProperties.funFacts != null && currentIndex >= 0 && currentIndex < planetProperties.funFacts.Count)
         {
-            factText.text = currentFacts[currentIndex];
+            factText.text = planetProperties.funFacts[currentIndex];
+
+            // Play the corresponding audio clip if available
+            if (planetProperties.funFactAudioClips.Count > currentIndex)
+            {
+                if (audioSource != null)
+                {
+                    audioSource.clip = planetProperties.funFactAudioClips[currentIndex];
+                    audioSource.Play();
+                }
+                else
+                {
+                    Debug.LogWarning("AudioSource component not found. Audio clip will not be played.");
+                }
+            }
         }
         else
         {

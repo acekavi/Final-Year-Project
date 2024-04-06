@@ -24,3 +24,9 @@ MonoBehaviour:
   - Venus' surface pressure is 90 times that of Earth, equivalent to being a mile
     underwater.
   - Venus is the brightest planet in our sky, visible even during the day.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: 31e7ba11a96167043a61355ae92f4e9a, type: 3}
+  - {fileID: 8300000, guid: 1ad4a37138df43949957f0e69d87385a, type: 3}
+  - {fileID: 8300000, guid: 1a333e3b1d5c0cf42a16a4d387e5cae1, type: 3}
+  - {fileID: 8300000, guid: 50836c0718516b140bfa6a2a5dbd2513, type: 3}
+  - {fileID: 8300000, guid: 26928d4dd46288141b919a6ca6b1ceee, type: 3}

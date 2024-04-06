@@ -22,3 +22,9 @@ MonoBehaviour:
   - Uranus has 13 known rings, fainter than Saturn's.
   - Its unique tilt causes extreme seasons, lasting over 20 years each.
   - Methane in the atmosphere gives Uranus its blue-green hue.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: e4cc564a6bb46014ca4dc32963355c68, type: 3}
+  - {fileID: 8300000, guid: 16bf22660bd51d944963a85738ae7524, type: 3}
+  - {fileID: 8300000, guid: 22aee06ac31845348b06f18cf34f34be, type: 3}
+  - {fileID: 8300000, guid: 4cb6da1ee4a203d438b68d1fc60f4615, type: 3}
+  - {fileID: 8300000, guid: a59dc1ee6751ce043baf04dc0475869e, type: 3}

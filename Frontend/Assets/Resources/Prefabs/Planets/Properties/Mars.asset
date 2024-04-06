@@ -21,3 +21,9 @@ MonoBehaviour:
   - Mars has polar ice caps that contain water ice and dry ice (frozen CO2).
   - Evidence of ancient rivers suggests Mars once had liquid water.
   - It is the most explored planet beyond Earth, with ongoing missions.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: 5348426132d3ee94b8cada21fcb3288d, type: 3}
+  - {fileID: 8300000, guid: 93e2a5b1b091eea48ac9d3e36a27f8e2, type: 3}
+  - {fileID: 8300000, guid: abb33351d5eaf0b4fbed596995e4e4b1, type: 3}
+  - {fileID: 8300000, guid: af03568aa16a4654a87036c4dfb67da2, type: 3}
+  - {fileID: 8300000, guid: 1f4d88730702917409cdaf4519eebe48, type: 3}

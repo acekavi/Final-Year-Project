@@ -23,3 +23,9 @@ MonoBehaviour:
   - "Neptune has 14 moons, including Triton, which orbits in the opposite direction
     of Neptune\u2019s rotation."
   - Neptune has only been visited by one spacecraft, Voyager 2, in 1989.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: 98dc468b11b2d0a489c40d6e930f1565, type: 3}
+  - {fileID: 8300000, guid: bf283945430eb614fb308d33f78ccb6b, type: 3}
+  - {fileID: 8300000, guid: 3a6f183e155a4744db0df884f4cbe296, type: 3}
+  - {fileID: 8300000, guid: d45a4dce1452015469b4286b8948f2c1, type: 3}
+  - {fileID: 8300000, guid: ac76dd5c5966a07469087a469a1b705c, type: 3}

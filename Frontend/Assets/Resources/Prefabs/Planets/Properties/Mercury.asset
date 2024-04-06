@@ -23,3 +23,9 @@ MonoBehaviour:
   - Mercury experiences the most significant temperature fluctuations, from blistering
     hot to freezing cold.
   - It's the smallest planet in our solar system.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: ea3e07b3c344c05488d21cc66d18fc3a, type: 3}
+  - {fileID: 8300000, guid: 41081121566a4af4c9c77a93bfa0a36e, type: 3}
+  - {fileID: 8300000, guid: 9f894f5856bab524fb8705e0e4964fdc, type: 3}
+  - {fileID: 8300000, guid: 1068f06ffac765e44a23c3f8585f05aa, type: 3}
+  - {fileID: 8300000, guid: 238323b350065704da13c99eb8763996, type: 3}

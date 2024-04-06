@@ -6,7 +6,6 @@ using UnityEngine.InputSystem.Controls;
 public class PlanetInteraction : MonoBehaviour
 {
     [SerializeField] private PlanetProperties planetProperties;
-    [SerializeField] private GameObject funFactsPanel;
     private Camera mainCamera;
     private TouchControls touchControls;
     private float initialPinchDistance;
@@ -19,7 +18,6 @@ public class PlanetInteraction : MonoBehaviour
     private void Awake()
     {
         funFactsDisplay = GetComponent<FunFactsDisplay>();
-        funFactsDisplay.SetFacts(planetProperties.funFacts);
         touchControls = new TouchControls();
         mainCamera = Camera.main; // Cache the main camera
         SetupTouchControls();
@@ -68,12 +66,12 @@ public class PlanetInteraction : MonoBehaviour
             lastTouchPosition = touchPosition;
 
             float rotationFactor = delta.x * planetProperties.rotationSpeed * Time.deltaTime;
-            transform.Rotate(planetProperties.rotationAxis, -rotationFactor, Space.Self);
+            transform.Rotate(planetProperties.rotationAxis, -rotationFactor, Space.World);
         }
         else
         {
             // Automatic rotation
-            transform.Rotate(planetProperties.rotationAxis, planetProperties.autoRotationSpeed * Time.deltaTime, Space.Self);
+            transform.Rotate(planetProperties.rotationAxis, planetProperties.autoRotationSpeed * Time.deltaTime, Space.World);
         }
     }
 
@@ -133,7 +131,7 @@ public class PlanetInteraction : MonoBehaviour
     {
         if (isShowingDidYouKnow) return;
 
-        funFactsPanel.SetActive(true);
+        funFactsDisplay.ShowFunFactPanel();
         isShowingDidYouKnow = true;
     }
 
@@ -141,7 +139,7 @@ public class PlanetInteraction : MonoBehaviour
     {
         if (!isShowingDidYouKnow) return;
 
-        funFactsPanel.SetActive(false);
+        funFactsDisplay.HideFunFactPanel();
         isShowingDidYouKnow = false;
     }
 }

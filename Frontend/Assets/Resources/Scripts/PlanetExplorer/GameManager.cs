@@ -145,6 +145,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        nextQuestionButton.gameObject.SetActive(false); // Hide the "Next Question" button
         // Select a random question from the list of available questions
         int questionIndex = Random.Range(0, availableQuestions.Count);
         currentQuestion = availableQuestions[questionIndex]; // Update the current question
@@ -157,7 +158,6 @@ public class GameManager : MonoBehaviour
         questionText.text = currentQuestion;
         questionUIPrefab.SetActive(true); // Show the question UI
         CorrectAnswerPopup.SetActive(false); // Ensure feedback popup is hidden
-        nextQuestionButton.gameObject.SetActive(false); // Hide the "Next Question" button
 
         // Play the sound clip for the current question
         if (questionToAudioclip.TryGetValue(currentQuestion, out AudioClip clip))
@@ -270,7 +270,6 @@ public class GameManager : MonoBehaviour
 
         // Hide the "Try Again" popup and show the question panel again
         TryAgainPopup.SetActive(false);
-        questionUIPrefab.SetActive(true);
 
         // Reset the flag indicating the "Try Again" popup is showing
         isShowingTryAgain = false;

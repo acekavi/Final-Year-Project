@@ -22,3 +22,9 @@ MonoBehaviour:
   - Our atmosphere is unique, with about 21% oxygen, allowing humans and animals
     to breathe.
   - The Moon stabilizes Earth's tilt, influencing our climate and seasons.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: 1f2975732f69ca649b9f699dc8f94dd2, type: 3}
+  - {fileID: 8300000, guid: aa014b6455f626e469d4608ca9fe5f59, type: 3}
+  - {fileID: 8300000, guid: 5a84f5488bd2e864da9434dd333a675c, type: 3}
+  - {fileID: 8300000, guid: 6d8bb3cb0c19688458d559564854c099, type: 3}
+  - {fileID: 8300000, guid: 557dbcd5a5d939a40968cab74b08e230, type: 3}

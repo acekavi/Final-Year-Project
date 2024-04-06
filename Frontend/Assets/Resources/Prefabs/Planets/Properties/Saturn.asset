@@ -21,3 +21,9 @@ MonoBehaviour:
   - Saturn spins fast, causing it to flatten at the poles and bulge at the equator.
   - "Titan, Saturn\u2019s largest moon, has lakes of liquid methane and an atmosphere."
   - Like Jupiter, Saturn also experiences massive storms.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: 06415abd0c119bc46b2e2da9077b4335, type: 3}
+  - {fileID: 8300000, guid: b220a363768d7fc4e8e4c093352e449b, type: 3}
+  - {fileID: 8300000, guid: db81ffcd4988ed54db8f23ebdd4b75f0, type: 3}
+  - {fileID: 8300000, guid: 8c14668a2b847a94a9908139d46ec2f8, type: 3}
+  - {fileID: 8300000, guid: 4abfdf68c952abc40b4c5f0066dce1cf, type: 3}

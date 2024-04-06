@@ -77,6 +77,17 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
                     ""action"": ""TouchPress"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3c42eb60-d2cd-4cfa-8836-c9f578ce3dfe"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touch"",
+                    ""action"": ""TouchPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }

@@ -5106,7 +5106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetProperties: {fileID: 11400000, guid: 917cb6f080f7cef40aa91c4ad5d72961, type: 2}
-  funFactsPanel: {fileID: 8123417178504232978}
 --- !u!114 &8354765149710205177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5119,7 +5118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1322eb6192940734a92c256e92c87c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  planetProperties: {fileID: 11400000, guid: 917cb6f080f7cef40aa91c4ad5d72961, type: 2}
   factText: {fileID: 7803861328645595898}
+  funFactsPanel: {fileID: 8123417178504232978}
 --- !u!1 &3999836757716229768
 GameObject:
   m_ObjectHideFlags: 0

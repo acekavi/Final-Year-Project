@@ -23,3 +23,9 @@ MonoBehaviour:
   - It has the shortest day, with one rotation taking just under 10 hours.
   - Jupiter has the strongest magnetic field of all the planets, contributing to
     its intense auroras.
+  funFactAudioClips:
+  - {fileID: 8300000, guid: 38eca0977a01aea4e8461058cc32fd04, type: 3}
+  - {fileID: 8300000, guid: 4131a78314dc3e34ca6de8a70696a218, type: 3}
+  - {fileID: 8300000, guid: 2812fc724348b1740a5215e23d777d9c, type: 3}
+  - {fileID: 8300000, guid: cf81e28837d77294a922460b31cac9ad, type: 3}
+  - {fileID: 8300000, guid: 68d5fafd3e10fa7458e4842d7d69bc61, type: 3}
