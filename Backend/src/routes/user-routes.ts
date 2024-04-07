@@ -11,6 +11,7 @@ router.get('/details', CheckAuth, UserController.get_user);
 router.get('/logged/user', CheckAuth, UserController.get_logged_user);
 router.get('/check/auth', CheckAuth, UserController.get_auth_status);
 router.post('/add/achievement', CheckAuth, UserController.add_achievement);
+router.post('/add/badge', CheckAuth, UserController.add_badge);
 
 // router.put('/user/update/:id', CheckAuth, UserController.update_user);
 // router.put('/user/update/password/:id', CheckAuth, UserController.update_user_password);

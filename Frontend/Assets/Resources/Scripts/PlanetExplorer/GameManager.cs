@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
@@ -64,6 +65,16 @@ public class GameManager : MonoBehaviour
     private readonly List<string> availableQuestions = new();
     private readonly List<string> askedQuestions = new();
     private ImageTracker imageTracker;
+
+
+    // Achivement tracking
+    private int incorrectAnswerCount = 0;
+    private string addAchivementUrl;
+
+    private void Awake()
+    {
+        addAchivementUrl = ConfigManager.GetApiUrl("/api/users/add/achievement");
+    }
 
     private void Start()
     {
@@ -239,6 +250,8 @@ public class GameManager : MonoBehaviour
         // Prevent the "Try Again" popup from running again if it's already active
         if (isShowingTryAgain) return;
 
+        incorrectAnswerCount++;
+
         // Stop the current question clip if it's playing
         if (currentQuestionClip.isPlaying)
         {
@@ -310,28 +323,40 @@ public class GameManager : MonoBehaviour
         finalScoreText.text = $"{score}";
         finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + "s";
         DisplayStarsBasedOnScore();
+
+        AddAchievement("Planet Explorer");
+        if (incorrectAnswerCount == 0)
+        {
+            AddBadge("Perfect Astrologer");
+        }
     }
 
     private void DisplayStarsBasedOnScore()
     {
         // Correctly pass the necessary parameters to CalculateStars
-        int starsToShow = CalculateStars(score, askedQuestions.Count, Mathf.CeilToInt(timeLimit));
+        int starsToShow = CalculateStars(score, askedQuestions.Count);
         for (int i = 0; i < starImages.Length; i++)
         {
             starImages[i].gameObject.SetActive(i < starsToShow);
         }
     }
 
-    private int CalculateStars(int score, int totalQuestions, int maxScorePerQuestion)
+    private int CalculateStars(int score, int totalQuestions)
     {
-        int totalPossibleScore = totalQuestions * maxScorePerQuestion;
-        float scorePercentage = (float)score / totalPossibleScore * 100;
+        float scorePercentage = (float)score / totalQuestions * 100;
 
-        if (scorePercentage >= 75) return 3;
-        if (scorePercentage >= 50) return 2;
+        if (scorePercentage >= 75)
+        {
+            AddBadge("Planet Master");
+            return 3;
+        };
+        if (scorePercentage >= 50)
+        {
+            AddBadge("Planet Expert");
+            return 2;
+        };
         return 1;
     }
-
 
     public bool IsAnsweringQuestion()
     {
@@ -346,5 +371,61 @@ public class GameManager : MonoBehaviour
             return questionToAnswer[currentQuestion];
         }
         return string.Empty; // Return an empty string if no question is set or found.
+    }
+
+    public void AddAchievement(string achievement)
+    {
+        Debug.Log($"Achievement unlocked: {achievement}");
+        StartCoroutine(AddAchievementToUser(achievement));
+    }
+
+    private IEnumerator AddAchievementToUser(string achievement)
+    {
+        string token = PlayerPrefs.GetString("AuthToken", "");
+        // Create a form to send the achievement data to the server
+        WWWForm form = new();
+        form.AddField("achievement", achievement);
+
+        // Create a POST request to send the achievement data to the server
+        UnityWebRequest request = UnityWebRequest.Post(addAchivementUrl, form);
+        request.SetRequestHeader("Authorization", "Bearer " + token);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Achievement added successfully!");
+        }
+        else
+        {
+            Debug.LogError("Failed to add achievement: " + request.error);
+        }
+    }
+
+    public void AddBadge(string badge)
+    {
+        Debug.Log($"Badge unlocked: {badge}");
+        StartCoroutine(AddBadgeToUser(badge));
+    }
+
+    private IEnumerator AddBadgeToUser(string badge)
+    {
+        string token = PlayerPrefs.GetString("AuthToken", "");
+        // Create a form to send the badge data to the server
+        WWWForm form = new();
+        form.AddField("badge", badge);
+
+        // Create a POST request to send the badge data to the server
+        UnityWebRequest request = UnityWebRequest.Post(addAchivementUrl, form);
+        request.SetRequestHeader("Authorization", "Bearer " + token);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("Badge added successfully!");
+        }
+        else
+        {
+            Debug.LogError("Failed to add badge: " + request.error);
+        }
     }
 }

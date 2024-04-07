@@ -182,31 +182,61 @@ export const add_achievement = (
   next: NextFunction
 ): void => {
   try {
-    const userId = req.params.id;
+    const userId = req.user?.userId;
     const achievement = req.body.achievement;
     User.findById(userId)
       .then((user) => {
         if (!user) {
           return res.status(404).json({ message: 'User not found.' });
         }
-        user.achievements.push(achievement);
-        user
-          .save()
-          .then(() => {
-            res.json({ message: 'Achievement added successfully.' });
-          })
-          .catch((err) => {
-            console.error(err);
-            res.status(500).json({ message: 'Error adding achievement.' });
-          });
-      })
-      .catch((err) => {
+        if (!user.achievements.includes(achievement)) {
+          user.achievements.push(achievement);
+        }
+        user.save().then(() => {
+          res.json({ message: 'Achievement added successfully.' });
+        }).catch((err) => {
+          console.error(err);
+          res.status(500).json({ message: 'Error adding achievement.' });
+        });
+      }).catch((err) => {
         console.error(err);
         res.status(500).json({ message: 'Error adding achievement.' });
       });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error adding achievement.' });
+  }
+};
+
+export const add_badge = (
+  req: RequestWithUser,
+  res: Response,
+  next: NextFunction
+): void => {
+  try {
+    const userId = req.user?.userId;
+    const badge = req.body.badge;
+    User.findById(userId)
+      .then((user) => {
+        if (!user) {
+          return res.status(404).json({ message: 'User not found.' });
+        }
+        if (!user.badges.includes(badge)) {
+          user.badges.push(badge);
+        }
+        user.save().then(() => {
+          res.json({ message: 'Badge added successfully.' });
+        }).catch((err) => {
+          console.error(err);
+          res.status(500).json({ message: 'Error adding Badge.' });
+        });
+      }).catch((err) => {
+        console.error(err);
+        res.status(500).json({ message: 'Error adding Badge.' });
+      });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error adding Badge.' });
   }
 };
 
