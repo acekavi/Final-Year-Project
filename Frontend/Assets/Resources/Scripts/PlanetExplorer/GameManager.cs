@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public TMP_Text finalScoreText;
     public TMP_Text finalTotalTimeText;
     public Image[] starImages;
+    public GameObject FeedbackPanel;
+    public TMP_Text FeedbackText;
+
 
     [Header("Audio Clips")]
     public AudioClip correctAnswerClip;
@@ -41,6 +44,8 @@ public class GameManager : MonoBehaviour
     private bool isShowingTryAgain = false;
     private AudioSource currentQuestionClip;
     private Dictionary<string, AudioClip> questionToAudioclip = new Dictionary<string, AudioClip>();
+
+    private bool isShowingFeedback = false;
 
     private readonly Dictionary<string, string> questionToAnswer = new Dictionary<string, string>()
     {
@@ -70,10 +75,13 @@ public class GameManager : MonoBehaviour
     // Achivement tracking
     private int incorrectAnswerCount = 0;
     private string addAchivementUrl;
+    private string addBadgeUrl;
+    private Queue<string> feedbackQueue = new Queue<string>(); // Queue to store feedback messages
 
-    private void Awake()
+    void Awake()
     {
         addAchivementUrl = ConfigManager.GetApiUrl("/api/users/add/achievement");
+        addBadgeUrl = ConfigManager.GetApiUrl("/api/users/add/badge");
     }
 
     private void Start()
@@ -327,7 +335,7 @@ public class GameManager : MonoBehaviour
         AddAchievement("Planet Explorer");
         if (incorrectAnswerCount == 0)
         {
-            AddBadge("Perfect Astrologer");
+            AddBadge("Perfect");
         }
     }
 
@@ -347,12 +355,12 @@ public class GameManager : MonoBehaviour
 
         if (scorePercentage >= 75)
         {
-            AddBadge("Planet Master");
+            AddBadge("Master");
             return 3;
         };
         if (scorePercentage >= 50)
         {
-            AddBadge("Planet Expert");
+            AddBadge("Expert");
             return 2;
         };
         return 1;
@@ -394,6 +402,7 @@ public class GameManager : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("Achievement added successfully!");
+            showFeedbackPanel("Achievement Unlocked: " + achievement);
         }
         else
         {
@@ -415,17 +424,46 @@ public class GameManager : MonoBehaviour
         form.AddField("badge", badge);
 
         // Create a POST request to send the badge data to the server
-        UnityWebRequest request = UnityWebRequest.Post(addAchivementUrl, form);
+        UnityWebRequest request = UnityWebRequest.Post(addBadgeUrl, form);
         request.SetRequestHeader("Authorization", "Bearer " + token);
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log("Badge added successfully!");
+            showFeedbackPanel("Badge Unlocked: " + badge);
         }
         else
         {
             Debug.LogError("Failed to add badge: " + request.error);
         }
+    }
+
+    private void showFeedbackPanel(string feedbackText)
+    {
+        feedbackQueue.Enqueue(feedbackText); // Enqueue the new feedback message
+        if (!isShowingFeedback) // If feedback panel is not already showing, start showing feedback
+        {
+            StartCoroutine(ShowFeedback());
+        }
+    }
+
+    private IEnumerator ShowFeedback()
+    {
+        isShowingFeedback = true;
+        while (feedbackQueue.Count > 0)
+        {
+            string feedbackText = feedbackQueue.Dequeue(); // Dequeue the next feedback message
+            FeedbackText.text = feedbackText; // Set the feedback text
+
+            FeedbackPanel.SetActive(true); // Show the feedback panel
+
+            yield return new WaitForSeconds(2f); // Wait for 2 seconds
+
+            FeedbackPanel.SetActive(false); // Hide the feedback panel
+
+            yield return new WaitForSeconds(0.2f); // Add a short delay between feedback messages
+        }
+        isShowingFeedback = false; // Reset flag when all feedback messages are shown
     }
 }

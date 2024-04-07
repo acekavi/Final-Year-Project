@@ -12,6 +12,10 @@ public class ProfilePageManager : MonoBehaviour
     public TMP_Text achievementsText;
     public TMP_Text badgesText;
     public GameObject badgesPanel;
+    public GameObject masterBadgePrefab;
+    public GameObject expertBadgePrefab;
+    public GameObject perfectBadgePrefab;
+
 
     private string userDetailUrl; // Will be loaded from config.json
 
@@ -51,9 +55,18 @@ public class ProfilePageManager : MonoBehaviour
             {
                 foreach (string badge in response.badges)
                 {
-                    GameObject badgeGo = Instantiate(Resources.Load<GameObject>("Prefabs/Badge"));
-                    badgeGo.transform.SetParent(badgesPanel.transform, false);
-                    badgeGo.GetComponentInChildren<TMP_Text>().text = badge;
+                    if (badge == "Master")
+                    {
+                        AddBadge(masterBadgePrefab, badge);
+                    }
+                    else if (badge == "Expert")
+                    {
+                        AddBadge(expertBadgePrefab, badge);
+                    }
+                    else if (badge == "Perfect")
+                    {
+                        AddBadge(perfectBadgePrefab, badge);
+                    }
                 }
             }
             else
@@ -68,6 +81,24 @@ public class ProfilePageManager : MonoBehaviour
         }
     }
 
+    public void AddBadge(GameObject badgePrefab, string badgeName)
+    {
+        // Instantiate badge prefab
+        Instantiate(badgePrefab, badgesPanel.transform);
+
+        // Position badges dynamically
+        RepositionBadges();
+    }
+
+    private void RepositionBadges()
+    {
+        for (int i = 0; i < badgesPanel.transform.childCount; i++)
+        {
+            Transform badgeTransform = badgesPanel.transform.GetChild(i);
+            badgeTransform.localPosition = new Vector3(i * 250f, 0f, 0f); // Example positioning (adjust as needed)
+        }
+    }
+
     public void LogOut()
     {
         PlayerPrefs.DeleteKey("AuthToken");
@@ -77,6 +108,5 @@ public class ProfilePageManager : MonoBehaviour
         PlayerPrefs.Save();
         // Assuming there is a scene named "LoginScene"
         UnityEngine.SceneManagement.SceneManager.LoadScene("StartMenu");
-
     }
 }

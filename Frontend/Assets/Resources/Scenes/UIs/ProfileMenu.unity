@@ -415,7 +415,13 @@ MonoBehaviour:
   levelText: {fileID: 1275956417}
   achievementsText: {fileID: 1642704847}
   badgesText: {fileID: 1842653908}
-  badgesPanel: {fileID: 1623153667}
+  badgesPanel: {fileID: 1611080089}
+  masterBadgePrefab: {fileID: 2063104571699885527, guid: 70a81f10725483646abff61a6f1e4f1e,
+    type: 3}
+  expertBadgePrefab: {fileID: 7693257248066322338, guid: ae070c84e44cf3e4c89d485921854c4c,
+    type: 3}
+  perfectBadgePrefab: {fileID: 8845953325371896838, guid: 7a36964b1042b8a43bd869bf6abef62e,
+    type: 3}
 --- !u!4 &112175475
 Transform:
   m_ObjectHideFlags: 0
@@ -1320,6 +1326,7 @@ RectTransform:
   - {fileID: 163248988}
   - {fileID: 71771360}
   - {fileID: 1330725994}
+  - {fileID: 1611080092}
   - {fileID: 219157735}
   m_Father: {fileID: 104821953}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1746,7 +1753,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1842653907}
-  - {fileID: 1623153668}
   m_Father: {fileID: 898406236}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
@@ -1944,7 +1950,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586959976}
   m_CullTransparentMesh: 1
---- !u!1 &1623153667
+--- !u!1 &1611080089
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1952,42 +1958,23 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1623153668}
-  - component: {fileID: 1623153670}
-  - component: {fileID: 1623153669}
+  - component: {fileID: 1611080092}
+  - component: {fileID: 1611080091}
+  - component: {fileID: 1611080090}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: BadgesPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &1623153668
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1623153667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1330725994}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 308.15, y: -218.38}
-  m_SizeDelta: {x: 562.29, y: 56.766}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1623153669
+--- !u!114 &1611080090
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1623153667}
+  m_GameObject: {fileID: 1611080089}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -2011,14 +1998,33 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!222 &1623153670
+--- !u!222 &1611080091
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1623153667}
+  m_GameObject: {fileID: 1611080089}
   m_CullTransparentMesh: 1
+--- !u!224 &1611080092
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611080089}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 898406236}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 585.655, y: -519.38}
+  m_SizeDelta: {x: 1117.29, y: 238.76599}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1642704845
 GameObject:
   m_ObjectHideFlags: 0
@@ -2086,7 +2092,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4290351360
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
