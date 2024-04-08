@@ -44,7 +44,7 @@ public class ProfilePageManager : MonoBehaviour
             levelText.text = response.level.ToString();
             if (response.achievements != null && response.achievements.Length > 0)
             {
-                achievementsText.text = string.Join(", ", response.achievements);
+                achievementsText.text = string.Join("\n", response.achievements);
             }
             else
             {
@@ -95,7 +95,7 @@ public class ProfilePageManager : MonoBehaviour
         for (int i = 0; i < badgesPanel.transform.childCount; i++)
         {
             Transform badgeTransform = badgesPanel.transform.GetChild(i);
-            badgeTransform.localPosition = new Vector3(i * 250f, 0f, 0f); // Example positioning (adjust as needed)
+            badgeTransform.localPosition = new Vector3(i * 350f, 0f, 0f); // Example positioning (adjust as needed)
         }
     }
 
