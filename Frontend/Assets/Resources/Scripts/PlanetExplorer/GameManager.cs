@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
             EndGame(); // Call EndGame function to handle game over logic
             return;
         }
-
+        imageTracker.ClearAllSpawnedPlanets();
         nextQuestionButton.gameObject.SetActive(false); // Hide the "Next Question" button
         // Select a random question from the list of available questions
         int questionIndex = Random.Range(0, availableQuestions.Count);
@@ -189,7 +189,6 @@ public class GameManager : MonoBehaviour
 
         // Start timing the answer period for the new question
         isAnsweringQuestion = true;
-        imageTracker.ClearSpawnedPlanet(); // Clear any previously spawned planet
         currentTime = timeLimit; // Reset the timer for the new question
         UpdateTimerUI(); // Update the UI to show the reset timer
     }
@@ -272,7 +271,7 @@ public class GameManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(wrongAnswerClip, Camera.main.transform.position);
 
         // Deduct score if applicable
-        if (score >= 10)
+        if (score >= 20)
         {
             score -= 20;
             scoreText.text = $"{score}";
@@ -330,9 +329,10 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         AudioSource.PlayClipAtPoint(gameoverClip, Camera.main.transform.position);
+        imageTracker.ClearAllSpawnedPlanets();
         GameOverPanel.SetActive(true);
         finalScoreText.text = $"{score}";
-        finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + "seconds";
+        finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + " s";
         DisplayStarsBasedOnScore();
 
         AddAchievement("Planet Explorer");
@@ -354,20 +354,22 @@ public class GameManager : MonoBehaviour
 
     private int CalculateStars(int score, int totalQuestions)
     {
-        float scorePercentage = (float)score / totalQuestions * 100;
+        int maxScore = totalQuestions * 100;
+        float scorePercentage = (float)score / maxScore * 100;
 
         if (scorePercentage >= 75)
         {
             AddBadge("Master");
             return 3;
-        };
+        }
         if (scorePercentage >= 50)
         {
             AddBadge("Expert");
             return 2;
-        };
+        }
         return 1;
     }
+
 
     public bool IsAnsweringQuestion()
     {
@@ -469,4 +471,6 @@ public class GameManager : MonoBehaviour
         }
         isShowingFeedback = false; // Reset flag when all feedback messages are shown
     }
+
+
 }

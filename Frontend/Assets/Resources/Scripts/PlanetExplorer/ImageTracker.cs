@@ -16,7 +16,9 @@ public class ImageTracker : MonoBehaviour
 
     // Reference to the GameManager script.
     private GameManager gameManager;
-    private GameObject currentSpawnedPlanet = null;
+
+    // Currently spawned planets mapped by the ARTrackedImage names.
+    private Dictionary<string, GameObject> spawnedPlanets = new Dictionary<string, GameObject>();
 
     private void Awake()
     {
@@ -26,7 +28,7 @@ public class ImageTracker : MonoBehaviour
             planetPrefabsMap[prefab.name] = prefab;
         }
 
-        gameManager = GetComponent<GameManager>();
+        gameManager = FindObjectOfType<GameManager>(); // Updated to find the GameManager in the scene.
     }
 
     private void OnEnable()
@@ -51,9 +53,14 @@ public class ImageTracker : MonoBehaviour
             UpdateTrackedImage(trackedImage);
         }
 
+        // Handle removed images
         foreach (var trackedImage in eventArgs.removed)
         {
-            UpdateTrackedImage(trackedImage);
+            if (spawnedPlanets.TryGetValue(trackedImage.referenceImage.name, out GameObject planet))
+            {
+                Destroy(planet);
+                spawnedPlanets.Remove(trackedImage.referenceImage.name);
+            }
         }
     }
 
@@ -64,37 +71,48 @@ public class ImageTracker : MonoBehaviour
         // Before checking the current question answer, ensure a question is being asked.
         if (!gameManager.IsAnsweringQuestion()) return;
 
-        if (gameManager.GetCurrentQuestionAnswer() == name)
+        if (trackedImage.trackingState == TrackingState.Tracking && gameManager.IsAnsweringQuestion())
         {
-            // Correctly identified the planet for the current question
-            gameManager.CorrectAnswerSelected();
-            SpawnPlanet(name, trackedImage);
+            if (gameManager.GetCurrentQuestionAnswer() == name)
+            {
+                // Correctly identified the planet for the current question
+                gameManager.CorrectAnswerSelected();
+                SpawnOrUpdatePlanet(name, trackedImage);
+            }
+            else
+            {
+                // Incorrectly identified the planet for the current question
+                gameManager.WrongAnswerSelected();
+            }
+        }
+    }
+
+    private void SpawnOrUpdatePlanet(string planetName, ARTrackedImage trackedImage)
+    {
+        // Check if the planet is already spawned and just update its position.
+        if (!spawnedPlanets.TryGetValue(planetName, out GameObject currentSpawnedPlanet))
+        {
+            // Instantiate the correct planet prefab at the detected image's position.
+            if (planetPrefabsMap.TryGetValue(planetName, out GameObject planetPrefab))
+            {
+                currentSpawnedPlanet = Instantiate(planetPrefab, trackedImage.transform);
+                spawnedPlanets[planetName] = currentSpawnedPlanet;
+            }
         }
         else
         {
-            // Incorrectly identified the planet for the current question
-            gameManager.WrongAnswerSelected();
+            // Update the planet's position to match the tracked image.
+            currentSpawnedPlanet.transform.position = trackedImage.transform.position;
         }
     }
 
-    private void SpawnPlanet(string planetName, ARTrackedImage trackedImage)
+    // Individual planets are now managed in the OnTrackedImagesChanged event.
+    public void ClearAllSpawnedPlanets()
     {
-        // Destroy the previously spawned planet, if any.
-        ClearSpawnedPlanet();
-
-        // Instantiate the correct planet prefab at the detected image's position.
-        if (planetPrefabsMap.TryGetValue(planetName, out GameObject planetPrefab))
+        foreach (var planet in spawnedPlanets.Values)
         {
-            currentSpawnedPlanet = Instantiate(planetPrefab, trackedImage.transform);
+            Destroy(planet);
         }
-    }
-
-    public void ClearSpawnedPlanet()
-    {
-        if (currentSpawnedPlanet != null)
-        {
-            currentSpawnedPlanet.GetComponent<PlanetInteraction>().HidePlanetInfo();
-            Destroy(currentSpawnedPlanet);
-        }
+        spawnedPlanets.Clear();
     }
 }
