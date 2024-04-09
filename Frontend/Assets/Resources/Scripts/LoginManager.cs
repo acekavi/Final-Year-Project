@@ -5,7 +5,6 @@ using System.Collections;
 
 public class LoginManager : MonoBehaviour
 {
-
     [System.Serializable]
     private class AuthResponse
     {

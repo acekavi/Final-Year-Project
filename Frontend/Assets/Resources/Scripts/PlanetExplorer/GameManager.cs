@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
     public GameObject FeedbackPanel;
     public TMP_Text FeedbackText;
 
-
     [Header("Audio Clips")]
     public AudioClip correctAnswerClip;
     public AudioClip wrongAnswerClip;
@@ -365,7 +364,6 @@ public class GameManager : MonoBehaviour
         }
         return 1;
     }
-
 
     public bool IsAnsweringQuestion()
     {

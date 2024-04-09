@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class ConfigData
-{
-    public string apiUrl;
-}
-
 public class ConfigManager : MonoBehaviour
 {
-    public static ConfigData config;
+    [System.Serializable]
+    class ConfigData
+    {
+        public string apiUrl;
+    }
+
+    static ConfigData config;
 
     void Awake()
     {
