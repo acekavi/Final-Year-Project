@@ -73,5 +73,4 @@ public class ConfigManager : MonoBehaviour
     {
         return config.apiUrl + endpoint + "?" + key + "=" + value;
     }
-
 }

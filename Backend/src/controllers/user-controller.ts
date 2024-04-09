@@ -149,7 +149,7 @@ export const get_logged_user = (
       return res.status(401).json({ message: 'Invalid token.' });
     }
     // Verify and decode the JWT
-    jwt.verify(tokenValue, _secretKey => {
+    jwt.verify(tokenValue, secretKey, (err, decoded) => {
       const decodedToken = decoded as DecodedToken; // Type assertion for decoded token
       const userId = decodedToken.userId;
 

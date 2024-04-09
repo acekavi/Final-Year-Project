@@ -16,7 +16,6 @@ public class ProfilePageManager : MonoBehaviour
     public GameObject expertBadgePrefab;
     public GameObject perfectBadgePrefab;
 
-
     private string userDetailUrl; // Will be loaded from config.json
 
     // Start is called before the first frame update

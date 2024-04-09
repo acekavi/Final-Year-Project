@@ -7,14 +7,14 @@ using UnityEngine.UI;
 
 
 [System.Serializable]
-public class AuthResponse
+class AuthResponse
 {
     public string message;
     public bool auth;
 }
 
 [System.Serializable]
-public class UserDetailsResponse
+class UserDetailsResponse
 {
     public string email;
     public string name;

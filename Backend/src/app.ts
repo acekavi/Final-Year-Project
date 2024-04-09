@@ -56,7 +56,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next(error);
 });
 
-app.use((error: CustomError, req: Request, res: Response, next: NextFunction) => {
+app.use((error: CustomError, req: Request, res: Response) => {
   res.status(error.status || 500).json({
     error: {
       message: error.message,

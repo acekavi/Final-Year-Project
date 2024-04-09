@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
     private readonly List<string> askedQuestions = new();
     private ImageTracker imageTracker;
 
-
     // Achivement tracking
     private int incorrectAnswerCount = 0;
     private string addAchivementUrl;

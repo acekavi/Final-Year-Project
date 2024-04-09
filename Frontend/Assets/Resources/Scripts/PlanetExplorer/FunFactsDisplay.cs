@@ -26,7 +26,6 @@ public class FunFactsDisplay : MonoBehaviour
 
     public void SetFacts(List<string> facts, List<AudioClip> audioClips)
     {
-
         currentIndex = 0; // Reset index whenever setting new facts
 
         if (facts.Count > 0)
