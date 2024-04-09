@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 10
   rotationAxis: {x: 0, y: 1, z: 0.41}
-  autoRotationSpeed: 2
+  autoRotationSpeed: 5
   funFacts:
   - Earth is the only planet known to have liquid water on its surface.
   - It's the only planet in our solar system known to harbor life.

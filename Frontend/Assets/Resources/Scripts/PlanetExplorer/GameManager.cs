@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public AudioClip gameoverClip;
     public AudioClip[] questionClips;
 
-    private readonly float timeLimit = 60f;
+    private readonly float timeLimit = 30f;
     private float currentTime;
     private int score = 0;
     private string currentQuestion = string.Empty;
@@ -63,7 +63,9 @@ public class GameManager : MonoBehaviour
         {"This planet has 27 known moons and is the only one that rotates on its side. What's its name?", "Uranus"},
         {"Which planet is known as Earth’s Twin because of their similar size?", "Venus"},
         {"Which planet has seasons, polar ice caps, and could potentially support life with its water sources?", "Mars"},
-        {"Known as the 'Gas Giant,' this planet is the largest in our Solar System. What is its name?", "Jupiter"}
+        {"Known as the 'Gas Giant,' this planet is the largest in our Solar System. What is its name?", "Jupiter"},
+        {"What is known as the blue planet?", "Earth"},
+        {"Which is home to living species like Cats and Dogs?", "Earth"}
     };
 
     // Updated to use lists for questions and answers
@@ -187,8 +189,8 @@ public class GameManager : MonoBehaviour
 
         // Start timing the answer period for the new question
         isAnsweringQuestion = true;
+        imageTracker.ClearSpawnedPlanet(); // Clear any previously spawned planet
         currentTime = timeLimit; // Reset the timer for the new question
-        imageTracker.ClearSpawnedPlanet(); // Remove the current planet if it exists
         UpdateTimerUI(); // Update the UI to show the reset timer
     }
 
@@ -209,7 +211,7 @@ public class GameManager : MonoBehaviour
         isAnsweringQuestion = false;
 
         // Update total time
-        totalTime += currentTime;
+        totalTime += timeLimit - currentTime;
 
         // Update score UI
         UpdateScoreUI();
@@ -272,7 +274,7 @@ public class GameManager : MonoBehaviour
         // Deduct score if applicable
         if (score >= 10)
         {
-            score -= 10;
+            score -= 20;
             scoreText.text = $"{score}";
         }
 
@@ -329,7 +331,7 @@ public class GameManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(gameoverClip, Camera.main.transform.position);
         GameOverPanel.SetActive(true);
         finalScoreText.text = $"{score}";
-        finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + "s";
+        finalTotalTimeText.text = (Mathf.RoundToInt(totalTime) / 60).ToString() + "minutes";
         DisplayStarsBasedOnScore();
 
         AddAchievement("Planet Explorer");

@@ -23,8 +23,6 @@ public class ImageTracker : MonoBehaviour
         // Initialize the planet prefabs map.
         foreach (GameObject prefab in planetPrefabs)
         {
-            // Using prefab.name as the key might be prone to errors if the prefab's name doesn't exactly match the answer.
-            // Consider using a more reliable mapping if necessary.
             planetPrefabsMap[prefab.name] = prefab;
         }
 
@@ -50,15 +48,14 @@ public class ImageTracker : MonoBehaviour
 
         foreach (var trackedImage in eventArgs.updated)
         {
-            UpdateTrackedImage(trackedImage);
-        }
-
-        // Handle removed images if necessary.
-        foreach (var trackedImage in eventArgs.removed)
-        {
-            // Consider removing the spawned planet if it corresponds to the removed image.
-            // You might also want to handle this case differently based on your game's requirements.
-            UpdateTrackedImage(trackedImage);
+            if (currentSpawnedPlanet != null)
+            {
+                currentSpawnedPlanet.SetActive(trackedImage.trackingState == TrackingState.Tracking);
+            }
+            else
+            {
+                UpdateTrackedImage(trackedImage);
+            }
         }
     }
 
@@ -73,7 +70,7 @@ public class ImageTracker : MonoBehaviour
         {
             // Correctly identified the planet for the current question
             gameManager.CorrectAnswerSelected();
-            SpawnPlanet(name, trackedImage.transform.position, trackedImage);
+            SpawnPlanet(name, trackedImage);
         }
         else
         {
@@ -82,18 +79,15 @@ public class ImageTracker : MonoBehaviour
         }
     }
 
-    private void SpawnPlanet(string planetName, Vector3 position, ARTrackedImage trackedImage)
+    private void SpawnPlanet(string planetName, ARTrackedImage trackedImage)
     {
         // Destroy the previously spawned planet, if any.
-        if (currentSpawnedPlanet != null)
-        {
-            Destroy(currentSpawnedPlanet);
-        }
+        ClearSpawnedPlanet();
 
         // Instantiate the correct planet prefab at the detected image's position.
         if (planetPrefabsMap.TryGetValue(planetName, out GameObject planetPrefab))
         {
-            currentSpawnedPlanet = Instantiate(planetPrefab, position, Quaternion.identity);
+            currentSpawnedPlanet = Instantiate(planetPrefab, trackedImage.transform);
         }
     }
 

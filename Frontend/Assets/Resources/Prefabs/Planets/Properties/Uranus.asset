@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 15
   rotationAxis: {x: 0, y: 1, z: 7.86}
-  autoRotationSpeed: 2
+  autoRotationSpeed: 5
   funFacts:
   - Uranus rotates on its side, likely due to a collision early in its history.
   - "It's classified as an \u201Cice giant\u201D due to its cold, icy atmosphere
