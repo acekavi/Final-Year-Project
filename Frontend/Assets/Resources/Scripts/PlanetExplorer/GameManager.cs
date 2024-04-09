@@ -205,13 +205,10 @@ public class GameManager : MonoBehaviour
 
         // Hide the question panel
         questionUIPrefab.SetActive(false);
-
         // Stop the answering process
         isAnsweringQuestion = false;
-
         // Update total time
         totalTime += timeLimit - currentTime;
-
         // Update score UI
         UpdateScoreUI();
 
@@ -471,6 +468,4 @@ public class GameManager : MonoBehaviour
         }
         isShowingFeedback = false; // Reset flag when all feedback messages are shown
     }
-
-
 }

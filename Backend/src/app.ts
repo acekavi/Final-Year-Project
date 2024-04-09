@@ -2,9 +2,17 @@ import express, { Request, Response, NextFunction } from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import cors from 'cors';
 
 dotenv.config({ path: './config/.env' });
+
+class CustomError extends Error {
+  status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
 
 const app = express();
 
@@ -20,7 +28,7 @@ mongoose.connection
   .on('error', (err) => {
     console.log(
       'An error has occurred while connecting to mongoose. For further details => ' +
-        err
+      err
     );
   });
 
@@ -44,13 +52,11 @@ import userRoutes from './routes/user-routes';
 app.use('/api/users/', userRoutes);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const error = new Error('Not found') as any; // "as any" is used here to add the status property to the Error object
-  error.status = 404;
+  const error = new CustomError('Not found', 404);
   next(error);
 });
 
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  // "error: any" since Error doesn't have a status property by default
+app.use((error: CustomError, req: Request, res: Response, next: NextFunction) => {
   res.status(error.status || 500).json({
     error: {
       message: error.message,

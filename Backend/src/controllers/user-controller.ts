@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import jwt, { JwtPayload, VerifyErrors } from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 import User, { IUser } from '../models/user'; // Assume this is a TypeScript module or has .d.ts type declarations
 
@@ -20,8 +20,7 @@ interface RequestWithUser extends Request {
 // User controller functions
 export const create_user = async (
   req: RequestWithUser,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): Promise<void> => {
   User.find({ email: req.body.email })
     .exec()
@@ -46,7 +45,7 @@ export const create_user = async (
             });
             newUser
               .save()
-              .then(async (result) => {
+              .then(() => {
                 console.log(
                   `User with email ${req.body.email} successfully created in the DB.`
                 );
@@ -69,8 +68,7 @@ export const create_user = async (
 
 export const signin_user = async (
   req: RequestWithUser,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): Promise<void> => {
   // Implementation for user sign-in
   User.findOne({ email: req.body.email })
@@ -118,8 +116,7 @@ export const signin_user = async (
 
 export const get_user = (
   req: RequestWithUser,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): void => {
   User.findById(req.user?.userId) // Assuming id is a string
     .select('-password -_id -pass_reset_required -notifications')
@@ -138,8 +135,7 @@ export const get_user = (
 
 export const get_logged_user = (
   req: RequestWithUser,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): Response | void => {
   try {
     const token = req.headers.authorization;
@@ -153,7 +149,7 @@ export const get_logged_user = (
       return res.status(401).json({ message: 'Invalid token.' });
     }
     // Verify and decode the JWT
-    jwt.verify(tokenValue, (secretKey) => {
+    jwt.verify(tokenValue, _secretKey => {
       const decodedToken = decoded as DecodedToken; // Type assertion for decoded token
       const userId = decodedToken.userId;
 
@@ -178,8 +174,7 @@ export const get_logged_user = (
 
 export const add_achievement = (
   req: RequestWithUser,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): void => {
   try {
     const userId = req.user?.userId;
@@ -210,8 +205,7 @@ export const add_achievement = (
 
 export const add_badge = (
   req: RequestWithUser,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): void => {
   try {
     const userId = req.user?.userId;
@@ -242,8 +236,7 @@ export const add_badge = (
 
 export const get_auth_status = (
   req: RequestWithUser,
-  res: Response,
-  next: NextFunction
+  res: Response
 ): void => {
   res.status(200).json({
     message: 'User is authenticated.',
