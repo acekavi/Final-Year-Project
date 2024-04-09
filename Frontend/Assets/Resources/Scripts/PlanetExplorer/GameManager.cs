@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviour
         isShowingTryAgain = true;
 
         // Hide the question panel for 3 seconds
-        StartCoroutine(HideQuestionPanelForSeconds(3f));
+        StartCoroutine(HideQuestionPanelForSeconds(5f));
     }
 
     private IEnumerator HideQuestionPanelForSeconds(float seconds)
@@ -297,6 +297,7 @@ public class GameManager : MonoBehaviour
         // Reset the flag indicating the "Try Again" popup is showing
         isShowingTryAgain = false;
     }
+
     private void TimeRanOut()
     {
         isAnsweringQuestion = false;
@@ -331,7 +332,7 @@ public class GameManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(gameoverClip, Camera.main.transform.position);
         GameOverPanel.SetActive(true);
         finalScoreText.text = $"{score}";
-        finalTotalTimeText.text = (Mathf.RoundToInt(totalTime) / 60).ToString() + "minutes";
+        finalTotalTimeText.text = Mathf.RoundToInt(totalTime).ToString() + "seconds";
         DisplayStarsBasedOnScore();
 
         AddAchievement("Planet Explorer");

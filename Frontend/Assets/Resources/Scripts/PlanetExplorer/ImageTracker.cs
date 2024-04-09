@@ -48,14 +48,12 @@ public class ImageTracker : MonoBehaviour
 
         foreach (var trackedImage in eventArgs.updated)
         {
-            if (currentSpawnedPlanet != null)
-            {
-                currentSpawnedPlanet.SetActive(trackedImage.trackingState == TrackingState.Tracking);
-            }
-            else
-            {
-                UpdateTrackedImage(trackedImage);
-            }
+            UpdateTrackedImage(trackedImage);
+        }
+
+        foreach (var trackedImage in eventArgs.removed)
+        {
+            UpdateTrackedImage(trackedImage);
         }
     }
 
@@ -95,6 +93,7 @@ public class ImageTracker : MonoBehaviour
     {
         if (currentSpawnedPlanet != null)
         {
+            currentSpawnedPlanet.GetComponent<PlanetInteraction>().HidePlanetInfo();
             Destroy(currentSpawnedPlanet);
         }
     }
